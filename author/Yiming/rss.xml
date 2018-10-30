@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+   
+      <title>jekyller.github.io/jasper/</title>
+   
+   <link>http://localhost:4000</link>
+   <description>Stay hungry, stay foolish.</description>
+   <language>en-uk</language>
+   <managingEditor> </managingEditor>
+   <atom:link href="rss" rel="self" type="application/rss+xml" />
+   
+	<item>
+	  <title>Flask Web 开发学习笔记（六）</title>
+	  <link>//flask-web-06</link>
+	  <author></author>
+	  <pubDate>2015-04-08T08:16:00+08:00</pubDate>
+	  <guid>//flask-web-06</guid>
+	  <description><![CDATA[
+	     <p>本文主要介绍如何使用 Flask 操作数据库。</p>
+
+<p>数据库按照一定规则保存程序数据，程序再发起查询取回所需的数据。Web 程序最常用基于关系模型的数据库，这种数据库也称为 SQL 数据，因为它们使用结构化查询语句。不过最近几年文档数据库和键值对数据库成了流行的替代选择，这两种数据库合称为 NoSQL 数据库。</p>
+
+<p>大多数的数据库引擎都有对应的 Python 包，包括开源包和商业包。Flask 并不限制你使用何种类型的数据库包，因此可以根据自己的喜好选择使用 MySQL、Postgres、SQLite，Redis、MongoDB 或者 CouchDB。</p>
+
+<p>如果这些都无法满足需求，还有一些数据库抽象层代码包供选择，例如 SQLAlchemy 和 MongoEngine 。你可以使用这些抽象包直接处理高等级的 Python 对象，而不用处理如表、文档或查询语言此类的数据库实体。</p>
+
+<p>选择框架时，你不一定非得选择已经集成了 Flask 的框架，但选择这些框架可以节约你编写集成代码的时间。使用集成了 Flask 的框架可以简化配置和操作，所以专门为 Flask 开发的扩展是你的首选。</p>
+
+<p>关于选择使用的数据库框架，选择的是 Flask-SQLAlchemy。</p>
+
+<h2 id="安装-flask-sqlalchemy">安装 Flask-SQLAlchemy</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install flask-sqlalchemy
+</code></pre></div></div>
+
+<h2 id="配置-flask-sqlalchemy">配置 Flask-SQLAlchemy</h2>
+
+<p>在 Flask-SQLAlchemy 中，数据库使用 URL 指定。</p>
+
+<blockquote>
+  <p>MySQL :  mysql://username:password@hostname/database
+Postgres ：  postgresql://username:password@hostname/database
+SQLite : sqlite:////absolute/path/to/database</p>
+</blockquote>
+
+<p>在这些 URL 中，hostname 表示 MySQL 服务所在的主机，可以是本地主机（localhost），也可以是远程服务器。数据库服务器上可以托管多个数据库，因此 database 表示要使用的数据库名。如果数据库需要进行认证，username 和 password 表示数据库的用户名和密码。</p>
+
+<p>SQLite 数据库不需要使用服务器，因此不用指定 hostname、username 和 password。 URL 中的 database 是硬盘上文件的文件名。</p>
+
+<p>程序使用的数据库URL必须保存到 Flask 配置对象的 <code class="highlighter-rouge">SQLALCHEMY_DATABASE_URI</code> 键中。配置对象中还有一个很有用的选项，即 <code class="highlighter-rouge">SQLALCHEMY_COMMIT_ON_TEARDOWN</code> 键，将其设置为 <code class="highlighter-rouge">True</code> 时，每次请求结束后都会自动提交数据库中的变动。</p>
+
+<p>我们使用 SQLite 数据库，配置代码 如下：</p>
+
+<pre><code class="language-PYTHON">from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import os  
+
+baseDir = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:////' + os.path.join(baseDir,'data.sqlite')
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+
+db = SQLAlchemy(app)
+</code></pre>
+
+<h2 id="定义模型">定义模型</h2>
+
+<p>定义一个用户表 users 和一个角色表 roles，代码如下：</p>
+
+<pre><code class="language-PYTHON">class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer,primary_key=True)
+    username = db.Column(db.String(64),unique=True,index=True)
+
+    def __repr__(self):
+        return '&lt;User %r&gt;' % self.username
+
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(64),unique=True)
+
+    def __repr__(self):
+        return '&lt;Role %r&gt;' % self.name
+</code></pre>
+
+<p>解释下：</p>
+
+<blockquote>
+  <p>0.两个类 <code class="highlighter-rouge">User</code> 和 <code class="highlighter-rouge">Role</code> 继承自 <code class="highlighter-rouge">db.Model</code><br />
+1.<code class="highlighter-rouge">__tablename__</code> 用来指定表名称<br />
+2.<code class="highlighter-rouge">db.Column()</code> 函数指定了数据库中字段的类型，是否是主键（ <code class="highlighter-rouge">primary_key</code> ），是否唯一( <code class="highlighter-rouge">unique</code> )，是否加索引( <code class="highlighter-rouge">index</code> ),还有其他的比如：是否可以为空（ <code class="highlighter-rouge">nullable=True</code> ）,默认值（ <code class="highlighter-rouge">default</code> ）</p>
+</blockquote>
+
+<h2 id="关系">关系</h2>
+
+<p>使用关系型数据库，不指定关系怎么能行。定义模型中我们没有指定关系，一个用户有一个角色，一个角色可以属于多个用户，典型的一对多的关系，如何在 Flask-SQLAlchemy 中定义关系？</p>
+
+<p>上代码：</p>
+
+<pre><code class="language-PYTHON">class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer,primary_key=True)
+    username = db.Column(db.String(64),unique=True,index=True)
+
+    role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
+
+    def __repr__(self):
+        return '&lt;User %r&gt;' % self.username
+
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(64),unique=True)
+
+    users = db.relationship('User',backref='role')
+
+
+    def __repr__(self):
+        return '&lt;Role %r&gt;' % self.name
+</code></pre>
+
+<p>添加了两行代码：</p>
+
+<p>第一行 <code class="highlighter-rouge">User</code> 类中：</p>
+
+<pre><code class="language-PYTHON">role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
+</code></pre>
+
+<p>这句话比较好理解，和上面普通变量差不多，就是 <code class="highlighter-rouge">User</code> 类中添加了一个 <code class="highlighter-rouge">role_id</code> 变量，数据类型 <code class="highlighter-rouge">db.Integer</code>,第二个参数指定外键是哪个表中哪个 <code class="highlighter-rouge">id</code>。</p>
+
+<p>第二行 <code class="highlighter-rouge">Role</code> 类中：</p>
+
+<pre><code class="language-PYTHON"> users = db.relationship('User',backref='role')
+</code></pre>
+
+<p>这句话比较复杂，仔细读下面的话：</p>
+
+<blockquote>
+  <p>0.添加到 <code class="highlighter-rouge">Role</code> 模型中的 <code class="highlighter-rouge">users</code> 属性代表这个关系的面向对象视角。对于一个 <code class="highlighter-rouge">Role</code> 类的实例，其 <code class="highlighter-rouge">users</code> 属性将返回与角色相关联的用户组成的列表。
+1.<code class="highlighter-rouge">db.relationship()</code> 第一个参数表明这个关系的另一端是哪个模型（类）。如果模型类尚未定义，可使用字符串形式指定。
+2.<code class="highlighter-rouge">db.relationship()</code> 第二个参数 <code class="highlighter-rouge">backref</code>，将向 <code class="highlighter-rouge">User</code> 类中添加一个 <code class="highlighter-rouge">role</code> 属性，从而定义反向关系。这一属性可替代 <code class="highlighter-rouge">role_id</code> 访问 <code class="highlighter-rouge">Role</code> 模型，此时获取的是模型对象，而不是外键的值。</p>
+</blockquote>
+
+<p>上面的关系为一对多关系的表示，一对一怎么办？</p>
+
+<p>调用 <code class="highlighter-rouge">db.relationship()</code> 时需要把 <code class="highlighter-rouge">uselist</code> 参数设置为 <code class="highlighter-rouge">False</code>。如下：</p>
+
+<pre><code class="language-PYTHON">db.relationship('User',backref='role',uselist=False)
+</code></pre>
+<p>至于多对多关系，以后会慢慢介绍。</p>
+
+<h2 id="数据库操作">数据库操作</h2>
+
+<p>数据库操作，基本的一些：数据库、表创建或删除，数据的增删改查。</p>
+
+<h4 id="创建数据库和表">创建数据库和表</h4>
+
+<pre><code class="language-PYTHON">db.create_all()
+</code></pre>
+
+<p>上面说的 users 表和 roles 表就创建了。</p>
+
+<h4 id="删除数据库">删除数据库</h4>
+
+<pre><code class="language-PYTHON">db.drop_all()
+</code></pre>
+
+<h4 id="插入行">插入行</h4>
+
+<pre><code class="language-PYTHON">role_admin = Role(name='Admin')
+user_tom = User(username='tom',role=role_admin)
+user_jim = User(username='jim',role=role_admin)
+user_tim = User(username='tim',role=role_admin)
+user_sam = User(username='sam',role=role_admin)
+db.session.add(role_admin)
+db.session.add(user_tom)
+db.session.add(user_jim)
+db.session.commit()
+</code></pre>
+
+<p>通过数据库会话管理对数据库所做的改动，在 Flask-SQLAlchemy 中，会话由<code class="highlighter-rouge">db.session</code> 表示，准备把队形写入数据库之前，先要将其添加到会话中。写入数据库需要调用 <code class="highlighter-rouge">db.session.commit()</code> 方法。</p>
+
+<h4 id="修改行">修改行</h4>
+
+<pre><code class="language-PYTHON"># 我们将 role_admin 变量中 name 为 Admin 改成 Administrator。 
+
+role_admin.name = 'Administrator'
+db.session.add(role_admin)
+db.session.commit()
+</code></pre>
+
+<h4 id="删除行">删除行</h4>
+
+<pre><code class="language-PYTHON"># 删除 Jim 用户
+
+db.session.delete(user_jim)
+db.session.commit()
+</code></pre>
+
+<h4 id="查询行">查询行</h4>
+
+<pre><code class="language-PYTHON"># 查询所有用户
+User.query.all() #返回结果：[&lt;User 'tom'&gt;, &lt;User 'tim'&gt;, &lt;User 'sam'&gt;]
+</code></pre>
+
+<p>更多相关方面文档请参考：<a href="http://docs.sqlalchemy.org"> SQLAlchemy 文档</a></p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>Flask Web 开发学习笔记（五）</title>
+	  <link>//flask-web-05</link>
+	  <author></author>
+	  <pubDate>2015-04-08T05:39:59+08:00</pubDate>
+	  <guid>//flask-web-05</guid>
+	  <description><![CDATA[
+	     <p>本文主要介绍，如何使用 Flask-Mail 发送邮件。</p>
+
+<p>Flask-Mail 连接到简单邮件传输协议（SMTP）服务器，并把邮件交给这个服务器发送。如果不进行配置，Flask-Mail 会连接 localhost 上的端口 25，无需验证即可发送邮件。</p>
+
+<h2 id="安装-flask-mail">安装 Flask-Mail</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install flask-mail
+</code></pre></div></div>
+
+<h2 id="flask-mail-发送邮件">Flask-Mail 发送邮件</h2>
+
+<p>以 163 邮箱账户为例，发送电子邮件</p>
+
+<div class="tip">
+[163 邮箱 常用的收件、发件服务器的地址和端口是什么](http://help.163.com/10/0731/11/6CTUBPT300753VB8.html)
+</div>
+
+<pre><code class="language-PYTHON">from flask import Flask,render_template
+from flask.ext.mail import Mail,Message
+import os
+
+app = Flask(__name__)
+#下面是SMTP服务器配置
+app.config['MAIL_SERVER'] = 'smtp.163.com' #电子邮件服务器的主机名或IP地址
+app.config['MAIL_PORT'] = '25' #电子邮件服务器的端口
+app.config['MAIL_USE_TLS'] = True #启用传输层安全
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME') #邮件账户用户名
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') #邮件账户的密码
+
+mail = Mail(app)
+
+@app.route('/')
+def index():
+    msg = Message('主题',sender=os.environ.get('MAIL_USERNAME'),recipients=['test@test.com'])
+    msg.body = '文本 body'
+    msg.html = '&lt;b&gt;HTML&lt;/b&gt; body'
+    mail.send(msg)
+
+    return '&lt;h1&gt;邮件发送成功&lt;/h1&gt;'
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+</code></pre>
+
+<p>上面的注释已经写的很明确了，其中邮件账户用户名和邮件账户密码已经存储到环境变量中，如何设置？我使用的命令行工具是 Mac OS X 下的 bash ，比如你设置的用户名为 test@test.com 密码为：test</p>
+
+<p>在命令行中输入：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export MAIL_USERNAME = 'test@test.com'
+export MAIL_PASSWORD = 'test'
+</code></pre></div></div>
+
+<h2 id="异步发送邮件">异步发送邮件</h2>
+
+<p>由于上面发送邮件比较慢，我们可以在异步线程中发送邮件，代码如下：</p>
+
+<pre><code class="language-PYTHON">from flask import Flask,render_template
+from flask.ext.mail import Mail,Message
+import os
+from threading import Thread
+
+app = Flask(__name__)
+app.config['MAIL_SERVER'] = 'smtp.163.com'
+app.config['MAIL_PORT'] = '25'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+
+mail = Mail(app)
+
+def send_async_email(app,msg):
+    with app.app_context():
+        mail.send(msg)
+
+@app.route('/')
+def index():
+    msg = Message('主题',sender=os.environ.get('MAIL_USERNAME'),recipients=['test@test.com'])
+    msg.body = '文本 body'
+    msg.html = '&lt;b&gt;HTML&lt;/b&gt; body'
+
+    thread = Thread(target=send_async_email,args=[app,msg])
+    thread.start()
+
+    return '&lt;h1&gt;邮件发送成功&lt;/h1&gt;'
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+</code></pre>
+
+<p>我们改动了一些代码，我们创建了个线程 thread，我们执行的方法是<code class="highlighter-rouge">send_async_email</code> ,需要注意的是很多 Flask 扩展都假设已经存在激活的程序上下文和请求上下文。<code class="highlighter-rouge">Flask-Mail</code> 中的 <code class="highlighter-rouge">send()</code> 函数使用 <code class="highlighter-rouge">current_app</code>,因此必须激活程序上下文，但是在异步线程中执行 <code class="highlighter-rouge">mail.send()</code> 函数时，程序上下文要使用<code class="highlighter-rouge">app.app_context()</code> 人工创建。</p>
+
+<p>现在再运行程序，会发现程序流畅多了。但是程序要发送大量电子邮件时，使用专门发送电子邮件的作业要比给每封邮件都新创建一个线程更合适。例如，我们可以把执行<code class="highlighter-rouge">send_async_email()</code> 函数的操作发给 <a href="http://www.celeryproject.org/">Celery</a> 任务队列。</p>
+
+	  ]]></description>
+	</item>
+
+
+</channel>
+</rss>
