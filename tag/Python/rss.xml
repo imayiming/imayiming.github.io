@@ -3,7 +3,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
    
-      <title>jekyller.github.io/jasper/</title>
+      <title>jekyller.github.io/</title>
    
    <link>http://localhost:4000</link>
    <description>Stay hungry, stay foolish.</description>
@@ -12,368 +12,51 @@
    <atom:link href="rss" rel="self" type="application/rss+xml" />
    
 	<item>
-	  <title>Flask Web 开发学习笔记（六）</title>
-	  <link>//flask-web-06</link>
-	  <author></author>
-	  <pubDate>2015-04-08T08:16:00+08:00</pubDate>
-	  <guid>//flask-web-06</guid>
-	  <description><![CDATA[
-	     <p>本文主要介绍如何使用 Flask 操作数据库。</p>
-
-<p>数据库按照一定规则保存程序数据，程序再发起查询取回所需的数据。Web 程序最常用基于关系模型的数据库，这种数据库也称为 SQL 数据，因为它们使用结构化查询语句。不过最近几年文档数据库和键值对数据库成了流行的替代选择，这两种数据库合称为 NoSQL 数据库。</p>
-
-<p>大多数的数据库引擎都有对应的 Python 包，包括开源包和商业包。Flask 并不限制你使用何种类型的数据库包，因此可以根据自己的喜好选择使用 MySQL、Postgres、SQLite，Redis、MongoDB 或者 CouchDB。</p>
-
-<p>如果这些都无法满足需求，还有一些数据库抽象层代码包供选择，例如 SQLAlchemy 和 MongoEngine 。你可以使用这些抽象包直接处理高等级的 Python 对象，而不用处理如表、文档或查询语言此类的数据库实体。</p>
-
-<p>选择框架时，你不一定非得选择已经集成了 Flask 的框架，但选择这些框架可以节约你编写集成代码的时间。使用集成了 Flask 的框架可以简化配置和操作，所以专门为 Flask 开发的扩展是你的首选。</p>
-
-<p>关于选择使用的数据库框架，选择的是 Flask-SQLAlchemy。</p>
-
-<h2 id="安装-flask-sqlalchemy">安装 Flask-SQLAlchemy</h2>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install flask-sqlalchemy
-</code></pre></div></div>
-
-<h2 id="配置-flask-sqlalchemy">配置 Flask-SQLAlchemy</h2>
-
-<p>在 Flask-SQLAlchemy 中，数据库使用 URL 指定。</p>
-
-<blockquote>
-  <p>MySQL :  mysql://username:password@hostname/database
-Postgres ：  postgresql://username:password@hostname/database
-SQLite : sqlite:////absolute/path/to/database</p>
-</blockquote>
-
-<p>在这些 URL 中，hostname 表示 MySQL 服务所在的主机，可以是本地主机（localhost），也可以是远程服务器。数据库服务器上可以托管多个数据库，因此 database 表示要使用的数据库名。如果数据库需要进行认证，username 和 password 表示数据库的用户名和密码。</p>
-
-<p>SQLite 数据库不需要使用服务器，因此不用指定 hostname、username 和 password。 URL 中的 database 是硬盘上文件的文件名。</p>
-
-<p>程序使用的数据库URL必须保存到 Flask 配置对象的 <code class="highlighter-rouge">SQLALCHEMY_DATABASE_URI</code> 键中。配置对象中还有一个很有用的选项，即 <code class="highlighter-rouge">SQLALCHEMY_COMMIT_ON_TEARDOWN</code> 键，将其设置为 <code class="highlighter-rouge">True</code> 时，每次请求结束后都会自动提交数据库中的变动。</p>
-
-<p>我们使用 SQLite 数据库，配置代码 如下：</p>
-
-<pre><code class="language-PYTHON">from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-import os  
-
-baseDir = os.path.abspath(os.path.dirname(__file__))
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:////' + os.path.join(baseDir,'data.sqlite')
-app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-
-db = SQLAlchemy(app)
-</code></pre>
-
-<h2 id="定义模型">定义模型</h2>
-
-<p>定义一个用户表 users 和一个角色表 roles，代码如下：</p>
-
-<pre><code class="language-PYTHON">class User(db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer,primary_key=True)
-    username = db.Column(db.String(64),unique=True,index=True)
-
-    def __repr__(self):
-        return '&lt;User %r&gt;' % self.username
-
-
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(64),unique=True)
-
-    def __repr__(self):
-        return '&lt;Role %r&gt;' % self.name
-</code></pre>
-
-<p>解释下：</p>
-
-<blockquote>
-  <p>0.两个类 <code class="highlighter-rouge">User</code> 和 <code class="highlighter-rouge">Role</code> 继承自 <code class="highlighter-rouge">db.Model</code><br />
-1.<code class="highlighter-rouge">__tablename__</code> 用来指定表名称<br />
-2.<code class="highlighter-rouge">db.Column()</code> 函数指定了数据库中字段的类型，是否是主键（ <code class="highlighter-rouge">primary_key</code> ），是否唯一( <code class="highlighter-rouge">unique</code> )，是否加索引( <code class="highlighter-rouge">index</code> ),还有其他的比如：是否可以为空（ <code class="highlighter-rouge">nullable=True</code> ）,默认值（ <code class="highlighter-rouge">default</code> ）</p>
-</blockquote>
-
-<h2 id="关系">关系</h2>
-
-<p>使用关系型数据库，不指定关系怎么能行。定义模型中我们没有指定关系，一个用户有一个角色，一个角色可以属于多个用户，典型的一对多的关系，如何在 Flask-SQLAlchemy 中定义关系？</p>
-
-<p>上代码：</p>
-
-<pre><code class="language-PYTHON">class User(db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer,primary_key=True)
-    username = db.Column(db.String(64),unique=True,index=True)
-
-    role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
-
-    def __repr__(self):
-        return '&lt;User %r&gt;' % self.username
-
-
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(64),unique=True)
-
-    users = db.relationship('User',backref='role')
-
-
-    def __repr__(self):
-        return '&lt;Role %r&gt;' % self.name
-</code></pre>
-
-<p>添加了两行代码：</p>
-
-<p>第一行 <code class="highlighter-rouge">User</code> 类中：</p>
-
-<pre><code class="language-PYTHON">role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
-</code></pre>
-
-<p>这句话比较好理解，和上面普通变量差不多，就是 <code class="highlighter-rouge">User</code> 类中添加了一个 <code class="highlighter-rouge">role_id</code> 变量，数据类型 <code class="highlighter-rouge">db.Integer</code>,第二个参数指定外键是哪个表中哪个 <code class="highlighter-rouge">id</code>。</p>
-
-<p>第二行 <code class="highlighter-rouge">Role</code> 类中：</p>
-
-<pre><code class="language-PYTHON"> users = db.relationship('User',backref='role')
-</code></pre>
-
-<p>这句话比较复杂，仔细读下面的话：</p>
-
-<blockquote>
-  <p>0.添加到 <code class="highlighter-rouge">Role</code> 模型中的 <code class="highlighter-rouge">users</code> 属性代表这个关系的面向对象视角。对于一个 <code class="highlighter-rouge">Role</code> 类的实例，其 <code class="highlighter-rouge">users</code> 属性将返回与角色相关联的用户组成的列表。
-1.<code class="highlighter-rouge">db.relationship()</code> 第一个参数表明这个关系的另一端是哪个模型（类）。如果模型类尚未定义，可使用字符串形式指定。
-2.<code class="highlighter-rouge">db.relationship()</code> 第二个参数 <code class="highlighter-rouge">backref</code>，将向 <code class="highlighter-rouge">User</code> 类中添加一个 <code class="highlighter-rouge">role</code> 属性，从而定义反向关系。这一属性可替代 <code class="highlighter-rouge">role_id</code> 访问 <code class="highlighter-rouge">Role</code> 模型，此时获取的是模型对象，而不是外键的值。</p>
-</blockquote>
-
-<p>上面的关系为一对多关系的表示，一对一怎么办？</p>
-
-<p>调用 <code class="highlighter-rouge">db.relationship()</code> 时需要把 <code class="highlighter-rouge">uselist</code> 参数设置为 <code class="highlighter-rouge">False</code>。如下：</p>
-
-<pre><code class="language-PYTHON">db.relationship('User',backref='role',uselist=False)
-</code></pre>
-<p>至于多对多关系，以后会慢慢介绍。</p>
-
-<h2 id="数据库操作">数据库操作</h2>
-
-<p>数据库操作，基本的一些：数据库、表创建或删除，数据的增删改查。</p>
-
-<h4 id="创建数据库和表">创建数据库和表</h4>
-
-<pre><code class="language-PYTHON">db.create_all()
-</code></pre>
-
-<p>上面说的 users 表和 roles 表就创建了。</p>
-
-<h4 id="删除数据库">删除数据库</h4>
-
-<pre><code class="language-PYTHON">db.drop_all()
-</code></pre>
-
-<h4 id="插入行">插入行</h4>
-
-<pre><code class="language-PYTHON">role_admin = Role(name='Admin')
-user_tom = User(username='tom',role=role_admin)
-user_jim = User(username='jim',role=role_admin)
-user_tim = User(username='tim',role=role_admin)
-user_sam = User(username='sam',role=role_admin)
-db.session.add(role_admin)
-db.session.add(user_tom)
-db.session.add(user_jim)
-db.session.commit()
-</code></pre>
-
-<p>通过数据库会话管理对数据库所做的改动，在 Flask-SQLAlchemy 中，会话由<code class="highlighter-rouge">db.session</code> 表示，准备把队形写入数据库之前，先要将其添加到会话中。写入数据库需要调用 <code class="highlighter-rouge">db.session.commit()</code> 方法。</p>
-
-<h4 id="修改行">修改行</h4>
-
-<pre><code class="language-PYTHON"># 我们将 role_admin 变量中 name 为 Admin 改成 Administrator。 
-
-role_admin.name = 'Administrator'
-db.session.add(role_admin)
-db.session.commit()
-</code></pre>
-
-<h4 id="删除行">删除行</h4>
-
-<pre><code class="language-PYTHON"># 删除 Jim 用户
-
-db.session.delete(user_jim)
-db.session.commit()
-</code></pre>
-
-<h4 id="查询行">查询行</h4>
-
-<pre><code class="language-PYTHON"># 查询所有用户
-User.query.all() #返回结果：[&lt;User 'tom'&gt;, &lt;User 'tim'&gt;, &lt;User 'sam'&gt;]
-</code></pre>
-
-<p>更多相关方面文档请参考：<a href="http://docs.sqlalchemy.org"> SQLAlchemy 文档</a></p>
-
-	  ]]></description>
-	</item>
-
-	<item>
-	  <title>Flask Web 开发学习笔记（五）</title>
-	  <link>//flask-web-05</link>
-	  <author></author>
-	  <pubDate>2015-04-08T05:39:59+08:00</pubDate>
-	  <guid>//flask-web-05</guid>
-	  <description><![CDATA[
-	     <p>本文主要介绍，如何使用 Flask-Mail 发送邮件。</p>
-
-<p>Flask-Mail 连接到简单邮件传输协议（SMTP）服务器，并把邮件交给这个服务器发送。如果不进行配置，Flask-Mail 会连接 localhost 上的端口 25，无需验证即可发送邮件。</p>
-
-<h2 id="安装-flask-mail">安装 Flask-Mail</h2>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install flask-mail
-</code></pre></div></div>
-
-<h2 id="flask-mail-发送邮件">Flask-Mail 发送邮件</h2>
-
-<p>以 163 邮箱账户为例，发送电子邮件</p>
-
-<div class="tip">
-[163 邮箱 常用的收件、发件服务器的地址和端口是什么](http://help.163.com/10/0731/11/6CTUBPT300753VB8.html)
-</div>
-
-<pre><code class="language-PYTHON">from flask import Flask,render_template
-from flask.ext.mail import Mail,Message
-import os
-
-app = Flask(__name__)
-#下面是SMTP服务器配置
-app.config['MAIL_SERVER'] = 'smtp.163.com' #电子邮件服务器的主机名或IP地址
-app.config['MAIL_PORT'] = '25' #电子邮件服务器的端口
-app.config['MAIL_USE_TLS'] = True #启用传输层安全
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME') #邮件账户用户名
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') #邮件账户的密码
-
-mail = Mail(app)
-
-@app.route('/')
-def index():
-    msg = Message('主题',sender=os.environ.get('MAIL_USERNAME'),recipients=['test@test.com'])
-    msg.body = '文本 body'
-    msg.html = '&lt;b&gt;HTML&lt;/b&gt; body'
-    mail.send(msg)
-
-    return '&lt;h1&gt;邮件发送成功&lt;/h1&gt;'
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-</code></pre>
-
-<p>上面的注释已经写的很明确了，其中邮件账户用户名和邮件账户密码已经存储到环境变量中，如何设置？我使用的命令行工具是 Mac OS X 下的 bash ，比如你设置的用户名为 test@test.com 密码为：test</p>
-
-<p>在命令行中输入：</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export MAIL_USERNAME = 'test@test.com'
-export MAIL_PASSWORD = 'test'
-</code></pre></div></div>
-
-<h2 id="异步发送邮件">异步发送邮件</h2>
-
-<p>由于上面发送邮件比较慢，我们可以在异步线程中发送邮件，代码如下：</p>
-
-<pre><code class="language-PYTHON">from flask import Flask,render_template
-from flask.ext.mail import Mail,Message
-import os
-from threading import Thread
-
-app = Flask(__name__)
-app.config['MAIL_SERVER'] = 'smtp.163.com'
-app.config['MAIL_PORT'] = '25'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-
-mail = Mail(app)
-
-def send_async_email(app,msg):
-    with app.app_context():
-        mail.send(msg)
-
-@app.route('/')
-def index():
-    msg = Message('主题',sender=os.environ.get('MAIL_USERNAME'),recipients=['test@test.com'])
-    msg.body = '文本 body'
-    msg.html = '&lt;b&gt;HTML&lt;/b&gt; body'
-
-    thread = Thread(target=send_async_email,args=[app,msg])
-    thread.start()
-
-    return '&lt;h1&gt;邮件发送成功&lt;/h1&gt;'
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-</code></pre>
-
-<p>我们改动了一些代码，我们创建了个线程 thread，我们执行的方法是<code class="highlighter-rouge">send_async_email</code> ,需要注意的是很多 Flask 扩展都假设已经存在激活的程序上下文和请求上下文。<code class="highlighter-rouge">Flask-Mail</code> 中的 <code class="highlighter-rouge">send()</code> 函数使用 <code class="highlighter-rouge">current_app</code>,因此必须激活程序上下文，但是在异步线程中执行 <code class="highlighter-rouge">mail.send()</code> 函数时，程序上下文要使用<code class="highlighter-rouge">app.app_context()</code> 人工创建。</p>
-
-<p>现在再运行程序，会发现程序流畅多了。但是程序要发送大量电子邮件时，使用专门发送电子邮件的作业要比给每封邮件都新创建一个线程更合适。例如，我们可以把执行<code class="highlighter-rouge">send_async_email()</code> 函数的操作发给 <a href="http://www.celeryproject.org/">Celery</a> 任务队列。</p>
-
-	  ]]></description>
-	</item>
-
-	<item>
 	  <title>Flask Web 开发学习笔记（一）</title>
 	  <link>//flask-web-01</link>
 	  <author></author>
-	  <pubDate>2015-03-15T07:13:05+08:00</pubDate>
+	  <pubDate>2018-04-26T08:13:54+08:00</pubDate>
 	  <guid>//flask-web-01</guid>
 	  <description><![CDATA[
-	     <p>本文章主要整理：</p>
-<blockquote>
-  <p>0.如何使用虚拟环境<br />
-1.如何用 <code class="highlighter-rouge">pip</code> 安装 Python 包（Demo：如何安装 <code class="highlighter-rouge">flask</code>）<br />
-2.一个简单的 Demo</p>
-</blockquote>
+	     <p>本教程前提：</p>
+<ul>
+  <li>Python 3</li>
+  <li>macOS 环境</li>
+</ul>
 
-<h2 id="如何使用虚拟环境">如何使用虚拟环境</h2>
+<h2 id="虚拟环境">虚拟环境</h2>
 
-<p>在介绍使用虚拟环境前，需要提前安装 Python 3.4(<a href="http://iyiming.me/blog/2015/03/01/she-is-python/">原先写的文章有介绍</a>)。</p>
+<p>安装 Flask 最便捷的方式是使用虚拟环境。虚拟环境是 Python 解释器的一个私有副本，在这个环境中你可以安装私有包，而且不会影响系统中安装的全局 Python 解释器。</p>
 
-<p>Python 3.4 通过 <code class="highlighter-rouge">venv</code> 模块原生支持虚拟环境，命令为 <code class="highlighter-rouge">pyvenv</code>。</p>
+<p>虚拟环境非常有用，可以在系统的 Python 解释器中避免包的混乱和版本的冲突。为每个程序单独创建虚拟环境可以保证程序只能访问虚拟环境中的包，从而保持全局解释器的干净整洁，使其只作为创建（更多）虚拟环境的源。使用虚拟环境还有个好处，那就是不需要管理员权限。</p>
 
-<p><strong>1.创建一个名字为 <code class="highlighter-rouge">venv</code> 虚拟环境</strong></p>
+<h5 id="1创建虚拟环境">1.创建虚拟环境</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pyvenv venv
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python3 -m venv XXX
 </code></pre></div></div>
 
-<p><strong>2.激活名字为： <code class="highlighter-rouge">venv</code> 的虚拟环境</strong></p>
+<h5 id="2激活虚拟环境创建的虚拟环境目录为-venv">2.激活虚拟环境（创建的虚拟环境目录为 <code class="highlighter-rouge">venv</code>）</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source venv/bin/activate
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ source venv/bin/activate
 </code></pre></div></div>
 
-<p><strong>3.激活虚拟环境命令会修改命令行提示符,显示如下:</strong></p>
+<h5 id="3退出虚拟环境">3.退出虚拟环境：</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $ deactivate
 </code></pre></div></div>
-
-<p><strong>4.退出当前虚拟环境</strong></p>
-
-<p>使用命令：<code class="highlighter-rouge">deactivate</code></p>
 
 <h2 id="使用-pip-安装-python-包">使用 pip 安装 Python 包</h2>
 
-<p>大多数 Python 包都使用 <code class="highlighter-rouge">pip</code> 实用工具安装，使用 <code class="highlighter-rouge">pyvenv</code> 创建的虚拟环境会自动安装 <code class="highlighter-rouge">pip</code>。</p>
+<p>大多数 Python 包都使用 pip 命令安装，使用 pip 安装 Flask（其它 Python 包同理）：</p>
 
-<p><strong>1.使用 <code class="highlighter-rouge">pip</code> 安装 <code class="highlighter-rouge">Flask</code>（其它 Python 包同理）</strong></p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install flask
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $ pip install flask
 </code></pre></div></div>
 
 <h2 id="一个简单的-demo">一个简单的 Demo</h2>
 
-<pre><code class="language-PYTHON">from flask import Flask
-from flask import abort
-from flask import redirect
+<p>./index.py</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from flask import Flask
 
 app = Flask(__name__)
 
@@ -383,97 +66,103 @@ def index():
 
 @app.route('/user/&lt;name&gt;')
 def sayHello(name):
-    if name == 'baidu':
-        return redirect('http://www.baidu.com')
-    elif name == 'NO':
-        return abort(404)
-        
-    return '&lt;h1&gt; Hello,%s &lt;/h1&gt;' % name
+    return '&lt;h1&gt;Hello %s!&lt;/h1&gt;' % name
 
 if __name__ == '__main__':
     app.run(debug=True)
-</code></pre>
+</code></pre></div></div>
+
+<p>启动程序：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $ python index.py
+</code></pre></div></div>
+
+<p>访问 <a href="http://localhost:5000/">http://localhost:5000/</a> 输出 Hello World！<br />
+访问 <a href="http://localhost:5000/user/Tom">http://localhost:5000/user/Tom</a> 输出  Hello Tom！</p>
 
 <p>从 Demo 中学习路由、修饰器、视图函数、请求、响应概念，一步步分析每行代码：</p>
 
-<p><strong>1.<code class="highlighter-rouge">from flask import Flask</code></strong></p>
+<h5 id="1-from-flask-import-flask">1. from flask import Flask</h5>
 
-<p>从 <code class="highlighter-rouge">flask</code> 库中导入 <code class="highlighter-rouge">Flask</code> 函数，<code class="highlighter-rouge">from flask import abort</code> 和 <code class="highlighter-rouge">from flask import redirect</code> 同理。</p>
+<p>从 flask 库中导入 <code class="highlighter-rouge">Flask</code> 函数</p>
 
-<p><strong>2.<code class="highlighter-rouge">app = Flask(__name__)</code></strong></p>
+<h5 id="2-app--flaskname">2. app = Flask(<strong>name</strong>)</h5>
 
-<p>创建 <code class="highlighter-rouge">Flask</code> 对象 <code class="highlighter-rouge">app</code>，<code class="highlighter-rouge">Flask</code> 类的构造函数只有一个必须指定的参数，即程序主模块或包的名字。在大多数程序中，Python 的 <code class="highlighter-rouge">__name__</code> 变量就是所需要的值。</p>
+<p>创建 <code class="highlighter-rouge">Flask</code> 对象 app，Flask 类的构造函数只有一个必须指定的参数，即程序主模块或包的名字。在大多数程序中，Python 的 <code class="highlighter-rouge">__name__</code> 变量就是所需要的值。</p>
 
-<p><strong>3.<code class="highlighter-rouge">@app.route('/')</code></strong></p>
+<h5 id="3-approute">3. @app.route(‘/’)</h5>
 
-<p>客户端（例如 Web 浏览器）把请求发送给 Web 服务器,Web 服务器再把请求发送给 Flask 程序实例。程序实例需要知道对每个 URL 请求运行哪些代码，所以保存了一个 URL 到 Python 函数的映射关系。处理 URL 和函数之间的关系的程序称为<strong>路由</strong>。</p>
+<p>客户端（例如 Web 浏览器）把请求发送给 Web 服务器，Web 服务器再把请求发送给 Flask 程序实例。程序实例需要知道对每个 URL 请求运行哪些代码，所以保存了一个 URL 到 Python 函数的映射关系。处理 URL 和函数之间的关系的程序称为<strong>路由</strong>。</p>
 
 <p>在 Flask 程序中定义路由的最简便方式，是使用程序实例提供的 <code class="highlighter-rouge">app.route</code> 修饰器，把修饰的函数注册为路由。</p>
 
 <p><strong>修饰器</strong>是 Python 语言的标准特性，可以使用不同的方式修改函数的行为。惯常用法是使用修饰器把函数注册为事件的处理程序。</p>
 
-<p><strong>4.<code class="highlighter-rouge">def index():</code>函数</strong></p>
+<h5 id="4-def-index">4. def index()</h5>
 
 <p><code class="highlighter-rouge">index()</code> 函数放在 <code class="highlighter-rouge">@app.route('/')</code> 后面，所以就是把 <code class="highlighter-rouge">index()</code> 函数注册为路由。</p>
 
-<p>如果部署程序的服务器域名为 <code class="highlighter-rouge">www.example.com</code>,在浏览器中访问 <code class="highlighter-rouge">www.example.com</code> 后，会触发服务器执行 <code class="highlighter-rouge">index()</code> 函数。</p>
+<p>如果部署程序的服务器域名为 http://www.example.com ，在浏览器中访问 http://www.example.com 后，会触发服务器执行 <code class="highlighter-rouge">index()</code> 函数。</p>
 
-<p><strong>5.<code class="highlighter-rouge">@app.route('/user/&lt;name&gt;')</code></strong></p>
+<h5 id="5-approuteuser">5. @app.route(‘/user/<name>')</name></h5>
 
-<p>同 <code class="highlighter-rouge">@app.route('/')</code>，如果部署程序的服务器域名为 <code class="highlighter-rouge">www.example.com</code>，在浏览器中访问 <code class="highlighter-rouge">www.example.com/user/tom</code> 后，会触发服务器执行下方修饰函数 <code class="highlighter-rouge">sayHello(name)</code>。</p>
+<p>同 <code class="highlighter-rouge">@app.route('/')</code>，如果部署程序的服务器域名为 http://www.example.com ，在浏览器中访问 http://www.example.com/user/Tom  后，会触发服务器执行下方修饰函数 <code class="highlighter-rouge">sayHello(name)</code>。</p>
 
-<p><strong>6.<code class="highlighter-rouge">sayHello(name)</code>函数</strong></p>
+<h5 id="6-if-__name__--__main__">6. <code class="highlighter-rouge">if __name__ == '__main__'</code></h5>
 
-<pre><code class="language-PYTHON">    if name == 'baidu':
-        return redirect('http://www.baidu.com')
-    elif name == 'NO':
-        return abort(404)
-        
-    return '&lt;h1&gt; Hello,%s &lt;/h1&gt;' % name
-</code></pre>
+<p>详见 StackOverflow :</p>
 
-<p>假定部署程序的服务器域名为 <code class="highlighter-rouge">www.example.com</code>。</p>
-
-<p>在浏览器中访问 <code class="highlighter-rouge">www.example.com/user/baidu</code>，那么 <code class="highlighter-rouge">redirect()</code> 函数就直接链接到百度了。</p>
-
-<p>注意的是，在使用 <code class="highlighter-rouge">redirect()</code> 函数之前，必须使用 <code class="highlighter-rouge">from flask import redirect</code> 从 flask 库中导入 <code class="highlighter-rouge">redirect()</code> 函数。</p>
-
-<p>在浏览器中访问 <code class="highlighter-rouge">www.example.com/user/NO</code>，那么 <code class="highlighter-rouge">abort()</code> 函数就会触发。</p>
-
-<p><code class="highlighter-rouge">abort()</code> 函数用于处理错误，<code class="highlighter-rouge">abort(404)</code> 返回 404 错误，<code class="highlighter-rouge">abort()</code>函数不会把控制权交还给调用它的函数，而是抛出异常把控制权交给Web服务器。</p>
-
-<p>在浏览器中访问 <code class="highlighter-rouge">www.example.com/user/tom</code>，那么会正确执行，在浏览器中显示 <code class="highlighter-rouge">Hello,tom</code>。</p>
-
-<p><strong>7.<code class="highlighter-rouge">if __name__ == '__main__':</code></strong></p>
-
-<p>一开始也没弄懂，这句话是什么意思。在 <a href="http://stackoverflow.com/questions/419163/what-does-if-name-main-do">StackOverflow</a> 中找到了答案。</p>
+<p><a href="http://stackoverflow.com/questions/419163/what-does-if-name-main-do">http://stackoverflow.com/questions/419163/what-does-if-name-main-do</a></p>
 
 <p>大致翻一下：</p>
+
 <blockquote>
-  <p>当 Python 解释器，读 py 文件,它会执行它发现的所有代码。在执行代码之前，它会定义一些变量。例如，如果这个 py 文件就是主程序，它会设置<code class="highlighter-rouge">__name__</code>变量为<code class="highlighter-rouge">"__main__"</code>。如果这个 py 被引入到别的模块，<code class="highlighter-rouge">__name__</code>会被设置为该模块的名字。</p>
+  <p>当 Python 解释器，读 py 文件,它会执行它发现的所有代码。在执行代码之前，它会定义一些变量。例如，如果这个 py 文件就是主程序，它会设置 <code class="highlighter-rouge">__name__</code> 变量为 <code class="highlighter-rouge">"__main__"</code>。如果这个 py 被引入到别的模块，<code class="highlighter-rouge">__name__</code> 会被设置为该模块的名字。</p>
 
-  <p>举个栗子：
-创建一个 test.py 文件：</p>
+  <p>举个栗子： 创建一个 test.py 文件：</p>
 
-  <pre><code class="language-PYTHON">if __name__ == '__main__':
+  <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if __name__ == '__main__':
 	print '自己主动执行'
 else:
 	print '我被别的模块引入'
-</code></pre>
+</code></pre></div>  </div>
+
+  <p>执行下 <code class="highlighter-rouge">$ python test.py</code> 会输出自己主动执行 直接在命令行中输入 <code class="highlighter-rouge">python3</code> 随后输入 <code class="highlighter-rouge">import test</code>，会输出：<code class="highlighter-rouge">我被别的模块引入</code>。</p>
 </blockquote>
 
-<blockquote>
-  <p>执行下 <code class="highlighter-rouge">$ python test.py</code> 会输出<code class="highlighter-rouge">自己主动执行</code>
-直接在命令行中输入 <code class="highlighter-rouge">python</code> 随后输入 <code class="highlighter-rouge">import test</code>，会输出：<code class="highlighter-rouge">我被别的模块引入</code>。</p>
-</blockquote>
-
-<p><strong>8.<code class="highlighter-rouge">app.run(debug=True)</code></strong></p>
+<h5 id="7-apprundebugtrue">7. app.run(debug=True)</h5>
 
 <p>程序实例用 <code class="highlighter-rouge">run()</code> 方法启动 Flask 继承的开发 Web 服务器。</p>
 
-<p>服务器启动后，会进入轮询，等待并处理请求。轮询会一直进行，直到程序停止，比如按<code class="highlighter-rouge">Ctrl-C</code>键。</p>
+<p>服务器启动后，会进入轮询，等待并处理请求。轮询会一直进行，直到程序停止，比如按 Ctrl-C 键。</p>
 
-<p><code class="highlighter-rouge">debug=True</code>表示启用调试模式。方便我们调试。</p>
+<p><code class="highlighter-rouge">debug=True</code> 表示启用调试模式。方便我们调试。</p>
+
+<h2 id="字符串拼接">字符串拼接</h2>
+
+<h5 id="1-使用--号">1. 使用 <code class="highlighter-rouge">+</code> 号</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>str = 'hello' + 'world'
+</code></pre></div></div>
+
+<h5 id="2-使用字符串-join-方法">2. 使用字符串 <code class="highlighter-rouge">join()</code> 方法</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>names = ['tom', 'jerry']
+nameStr = ' '.join(names)
+</code></pre></div></div>
+
+<h5 id="3-使用--号">3. 使用 <code class="highlighter-rouge">%</code> 号</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name = 'Tom'
+str = '&lt;h1&gt; hello %s!&lt;/h1&gt;' % name
+</code></pre></div></div>
+
+<h5 id="4-format-方法">4. <code class="highlighter-rouge">format()</code> 方法</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>str = '{0} is not {1}'.format('Tom', 'Jerry')
+
+str = '{who} is not {you}'.format(who='Tom', you='Jerry')
+</code></pre></div></div>
 
 	  ]]></description>
 	</item>

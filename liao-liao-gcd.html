@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Page Meta -->
+    <title>聊聊 GCD</title>
+    <meta name="description" content="什么是 GCD？GCD 包含什么内容？" />
+
+    <!-- Mobile Meta -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Brand icon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!-- Ghost outputs important style and meta data with this tag -->
+        <link rel="canonical" href="http://localhost:4000//liao-liao-gcd" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="Yiming's Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="聊聊 GCD" />
+    <meta property="og:description" content="什么是 GCD？GCD 包含什么内容？" />
+    <meta property="og:url" content="http://localhost:4000//liao-liao-gcd" />
+    <meta property="og:image" content="/assets/images/cover11.jpeg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="聊聊 GCD" />
+    <meta name="twitter:description" content="什么是 GCD？GCD 包含什么内容？" />
+    <meta name="twitter:url" content="http://localhost:4000//liao-liao-gcd" />
+    <meta name="twitter:image:src" content="/assets/images/cover11.jpeg" />
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "Yiming's Blog",
+    "name": "聊聊 GCD",
+    "url": "http://localhost:4000//liao-liao-gcd",
+    "image": "/assets/images/cover11.jpeg",
+    "description": "什么是 GCD？GCD 包含什么内容？"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="Yiming's Blog" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <!-- The blog navigation links -->
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/images/cover11.jpeg) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/images/ghost.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-speeches">
+
+        <header class="post-header">
+            <h1 class="post-title">聊聊 GCD</h1>
+            <section class="post-meta">
+            <!-- <a href='/'></a> -->
+
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <a href='/author/yiming'>Yiming</a>
+                
+            
+            <time class="post-date" datetime="2016-01-21">21 Jan 2016</time>
+                <!-- [[tags prefix=" on "]] -->
+                
+                on
+                
+                    
+                       <a href='/tag/iOS'>iOS</a>
+                    
+                
+                
+            </section>
+        </header>
+<p></p>
+        <section class="post-content">
+
+            <h2 id="什么是-gcd">什么是 GCD</h2>
+
+<p>GCD ( Grand Central Dispatch ) 是 iOS 多任务的核心。在 Mac OS X 10.6 雪豹中首次推出，后被引入到了 iOS 4.0 中。GCD 是基于 C 的 API，是底层的框架，<code class="highlighter-rouge">NSOperationQueue</code> 是在 GCD 的基础上实现的。</p>
+
+<p>GCD 和 Block 的配合使用，可以方便地进行多线程编程。</p>
+
+<h2 id="gcd-包含什么内容">GCD 包含什么内容</h2>
+
+<p>分派队列（ Dispatch Queue ），分派组（ Dispatch Group ），分派屏障（ Dispatch Barrier ）。</p>
+
+<p>除了上面几个比较常用的 GCD 还包含下面几个内容：</p>
+
+<p>分派信号量（ Dispatch Semaphores ）、分派源（ Dispatch Sources ）、分派数据（ Dispatch Data ）以及分派 I/O 。</p>
+
+<p>本文仅介绍分派队列，分派组，分派屏障 GCD 等常用内容。</p>
+
+<h2 id="同步异步并行串行并行并发-概念">同步、异步，并行、串行，并行、并发 概念</h2>
+
+<h4 id="同步">同步</h4>
+
+<p>所谓同步，就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回。</p>
+
+<p>同步代码如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+dispatch_sync(concurrentQueue, ^(){
+   NSLog(@"A");
+});
+
+dispatch_sync(concurrentQueue, ^(){
+   NSLog(@"B");
+});
+
+// 先输出 A 后输出 B 。
+</code></pre></div></div>
+
+<h4 id="异步">异步</h4>
+
+<p>异步的概念和同步相对。当一个异步过程调用发出后，不等待返回结果就执行下面的功能。</p>
+
+<p>异步代码如下：</p>
+
+<pre><code class="language-C">dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+dispatch_async(concurrentQueue, ^(){
+   NSLog(@"A");
+});
+
+dispatch_async(concurrentQueue, ^(){
+   NSLog(@"B");
+});
+
+// 可能先输出 A 后输出 B ，也可能先输出 B 后输出 A。因为异步下是没执行完就执行下面的功能
+</code></pre>
+
+<h4 id="并行与并发区别">并行与并发区别</h4>
+
+<p>当有多个线程在操作时，如果系统只有一个 CPU，则它根本不可能真正同时进行一个以上的线程，它只能把 CPU 运行时间划分成若干个时间段，再将时间段分配给各个线程执行，在一个时间段的线程代码运行时，其它线程处于挂起状态.这种方式我们称之为并发（ Concurrent ）。</p>
+
+<p>当系统有一个以上 CPU 时,则线程的操作有可能非并发.当一个 CPU 执行一个线程时,另一个CPU 可以执行另一个线程,两个线程互不抢占 CPU 资源,可以同时进行,这种方式我们称之为并行（ Parallel ）。</p>
+
+<h2 id="分配队列">分配队列</h2>
+
+<p>串行队列（一个队列一个队列的执行）：</p>
+
+<ul>
+  <li>
+    <p>主队列。最常见的串行队列。通过 <code class="highlighter-rouge">dispatch_get_main_queue()</code> 获得。</p>
+  </li>
+  <li>
+    <p>自己创建的串行队列。</p>
+
+    <pre><code class="language-C">dispatch_queue_t serialQueue = dispatch_queue_create("me.iYiming.serialQueue", DISPATCH_QUEUE_SERIAL);
+</code></pre>
+
+    <p>或者</p>
+
+    <pre><code class="language-C">dispatch_queue_t serialQueue = dispatch_queue_create("me.iYiming.serialQueue", NULL);
+</code></pre>
+  </li>
+</ul>
+
+<p>并发队列（几个队列 “同时” 执行）：</p>
+
+<ul>
+  <li>
+    <p>系统队列</p>
+
+    <pre><code class="language-C">#define DISPATCH_QUEUE_PRIORITY_HIGH 2 // 高
+#define DISPATCH_QUEUE_PRIORITY_DEFAULT 0 // 默认
+#define DISPATCH_QUEUE_PRIORITY_LOW (-2) // 低
+#define DISPATCH_QUEUE_PRIORITY_BACKGROUND INT16_MIN //最低
+</code></pre>
+
+    <pre><code class="language-C">dispatch_queue_t concurrentQueue = dispatch_get_global_queue(XXXX, 0); // 并发队列  XXXX 表示 上面的四个参数，
+</code></pre>
+  </li>
+  <li>
+    <p>自己创建的并发队列</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dispatch_queue_t concurrentQueue = dispatch_queue_create("me.iYiming.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>补充：</p>
+
+<p><code class="highlighter-rouge">dispatch_set_target_queue()</code> 用法：</p>
+
+<p>设置自己创建队列的目标队列，使创建的队列优先级和目标队列一样。</p>
+
+<p><a href="http://blog.csdn.net/growinggiant/article/details/41077221">http://blog.csdn.net/growinggiant/article/details/41077221</a></p>
+
+<p>上文中说了种情况：</p>
+
+<blockquote>
+  <p>一般都是把一个任务放到一个串行的 Queue 中，如果这个任务被拆分了，被放置到<strong>多个串行的 Queue 中</strong>，但实际还是需要这个任务同步执行，那么就会有问题，因为多个串行 Queue 之间是并行的。</p>
+
+  <p>那该如何是好呢？</p>
+
+  <p>这是就可以使用 <code class="highlighter-rouge">dispatch_set_target_queue</code> 了。
+如果将多个串行的 Queue 使用 <code class="highlighter-rouge">dispatch_set_target_queue</code> 指定到了同一目标，那么着多个串行 Queue 在目标 Queue 上就是同步执行的，不再是并行执行。</p>
+</blockquote>
+
+<p>除了上面链接中说到的用处外（也可以用别的方式替代），感觉没多大用处？！</p>
+
+<h2 id="分配组">分配组</h2>
+
+<p>关于使用分配组，我用到的情况就是这个情形下：执行 A 任务, B 任务后(A、B 任务可以同时做)，最后再做 C 任务。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dispatch_queue_t concurrentQueue = dispatch_queue_create("me.iYiming.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+
+dispatch_group_t group = dispatch_group_create();
+
+dispatch_group_async(group, concurrentQueue, ^{
+   // A 任务
+});
+
+dispatch_group_async(group, concurrentQueue, ^{
+   // B 任务
+});
+
+dispatch_group_notify(group, concurrentQueue, ^{
+   // C 任务
+});
+</code></pre></div></div>
+
+<h2 id="分配屏障">分配屏障</h2>
+
+<p>我们使用分配屏障会等当前队列前面处理全部执行结束后，再将指定的处理追加到该队列上，然后再由分配屏障追加的处理执行完毕后，当前队列才恢复为一般的动作，追加到该队列的处理又开始执行。</p>
+
+<h4 id="代码">代码</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dispatch_queue_t myQueue = dispatch_get_global_queue(0, 0);
+   
+dispatch_async(myQueue, ^{
+   NSLog(@"123");
+});
+
+dispatch_async(myQueue, ^{
+   NSLog(@"456");
+});
+
+dispatch_barrier_async(myQueue, ^{
+   NSLog(@"789");
+});
+
+dispatch_async(myQueue, ^{
+   NSLog(@"10");
+});
+</code></pre></div></div>
+
+<p>输出结果，先输出 <code class="highlighter-rouge">123</code> 或者 <code class="highlighter-rouge">456</code>，再输出 <code class="highlighter-rouge">789</code>，最后才输出 <code class="highlighter-rouge">10</code>。</p>
+
+<h4 id="举个例子">举个例子</h4>
+
+<p>我们都会对数据进行读写操作，为了防止多个线程对数据进行安全访问。我们需要使用锁来实现某种同步机制。</p>
+
+<p>在 GCD 出现之前，有 2 种办法：</p>
+
+<ul>
+  <li>采用内置的“同步块”</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> - (void)synchronizationMethod {
+      @synchronized(self) {
+          // 使用同步块
+      }
+  }
+</code></pre></div></div>
+
+<ul>
+  <li>直接使用 <code class="highlighter-rouge">NSLock</code> 对象（也可以使用 <code class="highlighter-rouge">NSRecursiveLock</code> 这种递归锁）。</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  _lock = [[NSLock alloc] init];
+
+  - (void)synchronizationMethod {
+      [_lock lock];
+      //NSLock 对象方式
+      [_lock unlock];
+  }
+</code></pre></div></div>
+
+<blockquote>
+  <p>互斥锁分为递归锁和非递归锁。</p>
+
+  <p>同一个线程可以多次获取同一个递归锁，不会产生死锁。<br />
+如果一个线程多次获取同一个非递归锁，则会产生死锁。</p>
+</blockquote>
+
+<p>这 2 种方法都很好，不过也有其缺陷。比方说：</p>
+
+<ul>
+  <li>
+    <p>在极端情况下，同步块会导致死锁，另外，其效率也不见得高.</p>
+  </li>
+  <li>
+    <p>滥用 <code class="highlighter-rouge">@sychronized(self)</code> 会很危险，因为所有同步块都会彼此抢夺同一个锁。要是有很多个属性都这么写的话，那么每个属性的同步块都要等其他所有同步块执行完毕才能执行，这也许不是我们想要的结果。</p>
+  </li>
+</ul>
+
+<p>我们可以使用 “串行同步队列”，将读取操作及写入操作都安排在同一个队列里，即可保证数据同步。</p>
+
+<pre><code class="language-C">_serialQueue = dispatch_queue_create("me.iYiming.serialQueue", DISPATCH_QUEUE_SERIAL);
+        
+- (NSString *)someString {
+    __block NSString *localSomeString;
+    
+    __weak typeof(self) wakeSelf = self;
+    dispatch_sync(_serialQueue, ^{
+        localSomeString = wakeSelf.someString;
+    });
+    return localSomeString;
+}
+
+- (void)setSomeString:(NSString *)someString {
+    __weak typeof(self) wakeSelf = self;
+    dispatch_sync(_serialQueue, ^{
+        wakeSelf.someString = someString;
+    });
+}
+</code></pre>
+
+<p>还可以进一步优化。设置方法并不一定非得是同步的。设置实例变量所用的块，并不需要向设置返回什么值。也就是可以修改成如下：</p>
+
+<pre><code class="language-C">- (void)setSomeString:(NSString *)someString {
+    __weak typeof(self) wakeSelf = self;
+    dispatch_async(_serialQueue, ^{
+        wakeSelf.someString = someString;
+    });
+}
+</code></pre>
+
+<p>但经过测试一下程序性能，那么可能会发现这种写法比原来慢，因为执行异步派发时，需要拷贝块。若拷贝所用的时间明显超过执行块所花的时间，则这种做法将比原来更慢。</p>
+
+<p>多个获取方法可以并发执行，而获取方法与设置方法之间不能并发执行，利用这个特点，还能写出更快一些的代码来。</p>
+
+<pre><code class="language-C">_concurrentQueue = dispatch_queue_create("me.iYiming.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+
+- (NSString *)someString {
+    __block NSString *localSomeString;
+    
+    __weak typeof(self) wakeSelf = self;
+    dispatch_sync(_concurrentQueue, ^{
+        localSomeString = wakeSelf.someString;
+    });
+    return localSomeString;
+}
+
+- (void)setSomeString:(NSString *)someString {
+    __weak typeof(self) wakeSelf = self;
+    dispatch_barrier_sync(_concurrentQueue, ^{ // 同步屏障
+        wakeSelf.someString = someString;
+    });
+}
+</code></pre>
+
+<p><strong>使用并发队列和分配屏障可实现高效率的数据库访问和文件访问。</strong></p>
+
+<h2 id="gcd-vs-nsoperation">GCD VS NSOperation</h2>
+
+<p>GCD 的优点：</p>
+
+<ol>
+  <li>GCD 提供的 <code class="highlighter-rouge">dispatch_after</code> 支持调度下一个操作的开始时间而不是直接进入睡眠。</li>
+  <li><code class="highlighter-rouge">NSOperation</code> 中没有类似 <code class="highlighter-rouge">dispatch_source_t</code> , <code class="highlighter-rouge">dispatch_io</code> , <code class="highlighter-rouge">dispatch_data_t</code> , <code class="highlighter-rouge">dispatch_semaphore_t</code> 等操作。</li>
+</ol>
+
+<p><code class="highlighter-rouge">NSOperation</code> 的优点：</p>
+
+<ol>
+  <li>GCD 没有操作依赖。我们可以让一个 Operation 依赖于另一个 Operation，这样的话尽管两个 Operation 处于同一个并行队列中，但前者会等后者执行完毕后再执行；</li>
+  <li>GCD 没有操作优先级（ GCD 有队列优先级），能够使同一个并行队列中的任务区分先后地执行，而在 GCD 中，我们只能区分不同任务队列的优先级，如果要区分 Block 任务的优先级，也需要大量的复杂代码；</li>
+  <li>GCD 没有 KVO。<code class="highlighter-rouge">NSOperation</code> 可以监听一个 Operation 是否完成或取消，这样能比 GCD 更加有效地掌控我们执行的后台任务</li>
+  <li>在 <code class="highlighter-rouge">NSOperationQueue</code> 中，我们可以随时取消已经设定要准备执行的任务(当然，已经开始的任务就无法阻止了)，而 GCD 没法停止已经加入 Queue 的 Block(其实是有的，但需要许多复杂的代码)</li>
+  <li>我们能够对 <code class="highlighter-rouge">NSOperation</code> 进行继承，在这之上添加成员变量与成员方法，提高整个代码的复用度，这比简单地将 Block 任务排入执行队列更有自由度，能够在其之上添加更多自定制的功能。</li>
+</ol>
+
+<h2 id="使用-dispatch_once-创建单例">使用 <code class="highlighter-rouge">dispatch_once</code> 创建单例</h2>
+
+<p>直接上代码：</p>
+
+<pre><code class="language-C">  //保存单例对象的静态全局变量
+  static id _instance;
+  + (instancetype)sharedTools {
+      return [[self alloc] init];
+  }
+  
+  //在调用 alloc 方法之后，最终会调用 allocWithZone 方法
+  + (instancetype)allocWithZone:(struct _NSZone *)zone {
+      //保证分配内存的代码只执行一次
+      static dispatch_once_t onceToken;
+      dispatch_once(&amp;onceToken, ^{
+          _instance = [super allocWithZone:zone];
+      });
+      return _instance;
+  }
+  
+  //这是个对象方法，既然有对象而且是单例，那么调用者就是这个单例对象了，那就返回调用的对象就行
+  - (id)copyWithZone:(NSZone *)zone {
+      return self;
+  }
+  
+  //这是个对象方法，既然有对象而且是单例，那么调用者就是这个单例对象了，那就返回调用的对象就行
+  - (id)mutableCopyWithZone:(NSZone *)zone {
+      return self;
+  }
+  
+  #if __has_feature(objc_arc)
+  //如果是ARC环境
+  #else
+  //如果不是 ARC 环境
+
+  //既然是单例对象，总不能被人给销毁了吧，一旦销毁了，分配内存的代码已经执行过了，就再也不能创建对象了。所以覆盖掉release操作
+  - (oneway void)release {
+  
+  }
+  
+  //这是个对象方法，既然有对象而且是单例，那么调用者就是这个单例对象了，那就返回调用的对象就行
+  - (instancetype)retain {
+      return self;
+  }
+  
+  //为了便于识别，这里返回 MAXFLOAT ，别的程序员看到这个数据，就能意识到这是单例了。纯属装逼……
+  - (NSUInteger)retainCount {
+      return MAXFLOAT;
+  }
+  #endif
+</code></pre>
+
+<p>当然还有种方式 是使用上面那种 使用 <code class="highlighter-rouge">@synchronized()</code> 方式。但 <code class="highlighter-rouge">dispatch_once</code> 更高效，它没有使用重量级的同步机制，若是那样做的话，每次运行代码前都要获取锁，相反，此函数采用 “原子访问” 来查询标记，以判断其所对应的代码原来是否已经执行过。</p>
+
+<h2 id="参考文章">参考文章</h2>
+
+<p><a href="http://www.cnblogs.com/NickyYe/archive/2008/12/01/1344802.html">http://www.cnblogs.com/NickyYe/archive/2008/12/01/1344802.html</a></p>
+
+<p><a href="http://www.tanhao.me/pieces/616.html/">http://www.tanhao.me/pieces/616.html/</a></p>
+
+<p><a href="http://blog.csdn.net/likendsl/article/details/8568961">http://blog.csdn.net/likendsl/article/details/8568961</a></p>
+
+<p><a href="http://stackoverflow.com/questions/15629696/why-my-completionblock-never-gets-called-in-an-nsoperation">http://stackoverflow.com/questions/15629696/why-my-completionblock-never-gets-called-in-an-nsoperation</a></p>
+
+<p><a href="http://blog.csdn.net/hufengvip/article/details/11687699">http://blog.csdn.net/hufengvip/article/details/11687699</a></p>
+
+<p><a href="http://www.jianshu.com/p/d09e2638eb27">http://www.jianshu.com/p/d09e2638eb27</a></p>
+
+<p><a href="http://stackoverflow.com/questions/7651551/why-should-i-choose-gcd-over-nsoperation-and-blocks-for-high-level-applications">http://stackoverflow.com/questions/7651551/why-should-i-choose-gcd-over-nsoperation-and-blocks-for-high-level-applications</a></p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                        <figure class="author-image">
+                            <a class="img" href="/author/yiming" style="background-image: url(/assets/images/yiming.jpeg)"><span class="hidden">yiming's Picture</span></a>
+                        </figure>
+                    
+
+                    <section class="author">
+                        <h4><a href="/author/yiming">Yiming</a></h4>
+
+                        
+                            <p> 程序猿，90后，生于齐鲁，奋斗在京</p>
+                        
+                        <div class="author-meta">
+                            <span class="author-location icon-location"> Beijing, China</span>
+                            <span class="author-link icon-link"><a href="http://iYiming.me"> iYiming.me</a></span>
+                        </div>
+                    </section>
+
+                    <!-- /author  -->
+
+                    <section class="share">
+                        <h4>Share this post</h4>
+                        <a class="icon-twitter" href="http://twitter.com/share?text=聊聊 GCD&amp;url=http://localhost:4000liao-liao-gcd"
+                            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                            <span class="hidden">Twitter</span>
+                        </a>
+                        <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000liao-liao-gcd"
+                            onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                            <span class="hidden">Facebook</span>
+                        </a>
+                        <a class="icon-google-plus" href="https://plus.google.com/share?url=http://localhost:4000liao-liao-gcd"
+                           onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                            <span class="hidden">Google+</span>
+                        </a>
+                    </section>
+                
+            
+
+            <!-- Add Disqus Comments -->
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/assets/images/cover11.jpeg)" href="/di-1-zhang-shou-xi-objective-c">
+            <section class="post">
+                <h2>第 1 章 熟悉 Objective-C</h2>
+                <p>熟悉 Objective-C</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/assets/images/cover12.jpeg)" href="/2015-my-book-list">
+            <section class="post">
+                <h2>2015 我的书单</h2>
+                <p>光阴易逝，岁月静添，还有 10 天，2015 就成为昨天。整理下今年读的一些书 ...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <!-- The tiny footer at the very bottom -->
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="/">Yiming's Blog</a> &copy; 2018</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/jekyller/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- highlight.js -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- jQuery needs to come before `` so that jQuery can be used in code injection -->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- Ghost outputs important scripts and data with this tag -->
+    <!--  -->
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-69281367-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>
+    <!-- Fitvids makes video embeds responsive and awesome -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <!-- The main JavaScript file for Casper -->
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+</body>
+</html>

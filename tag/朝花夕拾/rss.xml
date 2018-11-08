@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+   
+      <title>jekyller.github.io/</title>
+   
+   <link>http://localhost:4000</link>
+   <description>Stay hungry, stay foolish.</description>
+   <language>en-uk</language>
+   <managingEditor> </managingEditor>
+   <atom:link href="rss" rel="self" type="application/rss+xml" />
+   
+	<item>
+	  <title>2016 我的书单</title>
+	  <link>//2016-my-book-list</link>
+	  <author></author>
+	  <pubDate>2017-01-01T05:17:16+08:00</pubDate>
+	  <guid>//2016-my-book-list</guid>
+	  <description><![CDATA[
+	     <p>岁末，整理下今年读的一些书：</p>
+
+<ol>
+  <li>《硅谷钢铁侠-埃隆马斯克》</li>
+  <li>《我们仨》</li>
+  <li>《思考力》</li>
+  <li>《把时间当做朋友》</li>
+  <li>《设计中的设计》</li>
+  <li>《参与感》</li>
+  <li>《成为乔布斯》</li>
+  <li>《天才在左 疯子在右》</li>
+  <li>《如何高效学习》</li>
+  <li>《增长黑客》</li>
+  <li>《如何阅读一本书》</li>
+  <li>《社群营销:方法、技巧与实践》</li>
+  <li>《高效程序员的45个习惯》</li>
+</ol>
+
+<p>除了上面的还啃了一些技术书：Sketch、Python、JS、CSS、HTML、算法。入门了设计；虽然人生苦短，但我还是没用好 Python。技术书还要继续啃下去。</p>
+
+<p>相比去年，少了不少。2016 很忙，很茫。2017 忙就好了，茫的不要。</p>
+
+<p>越努力，越幸运！</p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>一个猿的自娱自乐</title>
+	  <link>//my-songs</link>
+	  <author></author>
+	  <pubDate>2016-08-22T02:40:14+08:00</pubDate>
+	  <guid>//my-songs</guid>
+	  <description><![CDATA[
+	     <p>这些年唱的歌，整理下:</p>
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 style='margin-left:-10px' src="http://music.163.com/outchain/player?type=4&id=6495042&auto=0&height=430"></iframe>
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>2015 我的书单</title>
+	  <link>//2015-my-book-list</link>
+	  <author></author>
+	  <pubDate>2015-12-20T23:52:21+08:00</pubDate>
+	  <guid>//2015-my-book-list</guid>
+	  <description><![CDATA[
+	     <p>光阴易逝，岁月静添，还有 10 天，2015 就成为昨天。整理下今年读的一些书：</p>
+
+<p>0.《褚时健：影响企业家的企业家》  <br />
+1.《平凡的世界》<br />
+2.《他们最幸福》<br />
+3.《看见》（重读）<br />
+4.《追风筝的人》<br />
+5.《皮囊》<br />
+6.《解忧杂货铺》<br />
+7.《邓小平时代》<br />
+8.《从 0 到 1》<br />
+9.《创业维艰》（未读完）<br />
+10.《朴槿惠传：绝望中寻找希望》    <br />
+11.《阿弥陀佛么么哒》<br />
+12.《目送》（美文）<br />
+13.《禅与摩托车维修技术》<br />
+14.《豫约幸福》<br />
+15.《瓦尔登湖》（未读完，太安静）<br />
+16.《红楼梦》（未读完，每天读一回，坚持是件愉快的事儿）<br />
+17.《写给大家看的设计书》（重读）<br />
+18.《必然》（刚开始读）</p>
+
+<p>也有些已经买了的书，但是几乎没看的：百年孤独（读了一点，没入情景放弃了）， 
+两本关于纳尔逊·曼德拉书《漫漫自由路》《与自己对话》几乎没读，高晓松的《鱼羊野史》只是看了一点，还有一本未拆封。买书如山倒，读书如抽丝啊。</p>
+
+<p>当然也读了些技术书，比如 《Flask Web 开发》、《iOS 开发实战》、《Effective Objective-C》、《写给大忙人看的 Swift》等。也有些买了几乎未读的，比如《Linux 就是这个范儿》，还有些算法书，公司给买的书等，就不罗列。</p>
+
+<p>生命中遇见的每一本书，都不是偶然。</p>
+
+
+	  ]]></description>
+	</item>
+
+
+</channel>
+</rss>

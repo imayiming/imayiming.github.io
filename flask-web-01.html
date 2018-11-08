@@ -7,7 +7,7 @@
 
     <!-- Page Meta -->
     <title>Flask Web 开发学习笔记（一）</title>
-    <meta name="description" content="Stay hungry, stay foolish." />
+    <meta name="description" content="第一个 Flask 程序" />
 
     <!-- Mobile Meta -->
     <meta name="HandheldFriendly" content="True" />
@@ -33,15 +33,15 @@
     <meta property="og:site_name" content="Yiming's Blog" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Flask Web 开发学习笔记（一）" />
-    <meta property="og:description" content="Stay hungry, stay foolish." />
+    <meta property="og:description" content="第一个 Flask 程序" />
     <meta property="og:url" content="http://localhost:4000//flask-web-01" />
-    <meta property="og:image" content="/assets/images/cover1.jpg" />
+    <meta property="og:image" content="/assets/images/cover11.jpeg" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Flask Web 开发学习笔记（一）" />
-    <meta name="twitter:description" content="Stay hungry, stay foolish." />
+    <meta name="twitter:description" content="第一个 Flask 程序" />
     <meta name="twitter:url" content="http://localhost:4000//flask-web-01" />
-    <meta name="twitter:image:src" content="/assets/images/cover1.jpg" />
+    <meta name="twitter:image:src" content="/assets/images/cover11.jpeg" />
 
     <script type="application/ld+json">
 {
@@ -50,8 +50,8 @@
     "publisher": "Yiming's Blog",
     "name": "Flask Web 开发学习笔记（一）",
     "url": "http://localhost:4000//flask-web-01",
-    "image": "/assets/images/cover1.jpg",
-    "description": "Stay hungry, stay foolish."
+    "image": "/assets/images/cover11.jpeg",
+    "description": "第一个 Flask 程序"
 }
     </script>
 
@@ -71,14 +71,6 @@
     <ul>
         <li class="nav-home " role="presentation"><a href="/">Home</a></li>
         <li class="nav-about " role="presentation"><a href="/about">About</a></li>
-        <li class="nav-fables " role="presentation"><a href="/tag/fables">Fables</a></li>
-        <li class="nav-speeches " role="presentation"><a href="/tag/speeches">Speeches</a></li>
-        <li class="nav-fiction " role="presentation"><a href="/tag/fiction">Fiction</a></li>
-        <li class="nav-author " role="presentation"><a href="/author/casper">Casper</a></li>
-        <li class="nav-author " role="presentation"><a href="/author/edgar">Edgar</a></li>
-        <li class="nav-author " role="presentation"><a href="/author/abraham">Abraham</a></li>
-        <li class="nav-author " role="presentation"><a href="/author/martin">Martin</a></li>
-        <li class="nav-author " role="presentation"><a href="/author/lewis">Lewis</a></li>
     </ul>
     <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
 </div>
@@ -96,7 +88,7 @@
 <!-- Everything inside the #post tags pulls data from the post -->
 <!-- #post -->
 
-<header class="main-header post-head " style="background-image: url(/assets/images/cover1.jpg) ">
+<header class="main-header post-head " style="background-image: url(/assets/images/cover11.jpeg) ">
     <nav class="main-nav  overlay  clearfix">
         <a class="blog-logo" href="/"><img src="/assets/images/ghost.png" alt="Blog Logo" /></a>
         
@@ -116,8 +108,6 @@
 
             
                 
-                    <a href='/author/casper'>Casper McFadden</a>
-                
             
                 
             
@@ -127,7 +117,11 @@
             
                 
             
-            <time class="post-date" datetime="2015-03-15">15 Mar 2015</time>
+                
+                    <a href='/author/yiming'>Yiming</a>
+                
+            
+            <time class="post-date" datetime="2018-04-26">26 Apr 2018</time>
                 <!-- [[tags prefix=" on "]] -->
                 
                 on
@@ -139,55 +133,48 @@
                 
             </section>
         </header>
-
+<p></p>
         <section class="post-content">
 
-            <p>本文章主要整理：</p>
-<blockquote>
-  <p>0.如何使用虚拟环境<br />
-1.如何用 <code class="highlighter-rouge">pip</code> 安装 Python 包（Demo：如何安装 <code class="highlighter-rouge">flask</code>）<br />
-2.一个简单的 Demo</p>
-</blockquote>
+            <p>本教程前提：</p>
+<ul>
+  <li>Python 3</li>
+  <li>macOS 环境</li>
+</ul>
 
-<h2 id="如何使用虚拟环境">如何使用虚拟环境</h2>
+<h2 id="虚拟环境">虚拟环境</h2>
 
-<p>在介绍使用虚拟环境前，需要提前安装 Python 3.4(<a href="http://iyiming.me/blog/2015/03/01/she-is-python/">原先写的文章有介绍</a>)。</p>
+<p>安装 Flask 最便捷的方式是使用虚拟环境。虚拟环境是 Python 解释器的一个私有副本，在这个环境中你可以安装私有包，而且不会影响系统中安装的全局 Python 解释器。</p>
 
-<p>Python 3.4 通过 <code class="highlighter-rouge">venv</code> 模块原生支持虚拟环境，命令为 <code class="highlighter-rouge">pyvenv</code>。</p>
+<p>虚拟环境非常有用，可以在系统的 Python 解释器中避免包的混乱和版本的冲突。为每个程序单独创建虚拟环境可以保证程序只能访问虚拟环境中的包，从而保持全局解释器的干净整洁，使其只作为创建（更多）虚拟环境的源。使用虚拟环境还有个好处，那就是不需要管理员权限。</p>
 
-<p><strong>1.创建一个名字为 <code class="highlighter-rouge">venv</code> 虚拟环境</strong></p>
+<h5 id="1创建虚拟环境">1.创建虚拟环境</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pyvenv venv
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python3 -m venv XXX
 </code></pre></div></div>
 
-<p><strong>2.激活名字为： <code class="highlighter-rouge">venv</code> 的虚拟环境</strong></p>
+<h5 id="2激活虚拟环境创建的虚拟环境目录为-venv">2.激活虚拟环境（创建的虚拟环境目录为 <code class="highlighter-rouge">venv</code>）</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source venv/bin/activate
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ source venv/bin/activate
 </code></pre></div></div>
 
-<p><strong>3.激活虚拟环境命令会修改命令行提示符,显示如下:</strong></p>
+<h5 id="3退出虚拟环境">3.退出虚拟环境：</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $ deactivate
 </code></pre></div></div>
-
-<p><strong>4.退出当前虚拟环境</strong></p>
-
-<p>使用命令：<code class="highlighter-rouge">deactivate</code></p>
 
 <h2 id="使用-pip-安装-python-包">使用 pip 安装 Python 包</h2>
 
-<p>大多数 Python 包都使用 <code class="highlighter-rouge">pip</code> 实用工具安装，使用 <code class="highlighter-rouge">pyvenv</code> 创建的虚拟环境会自动安装 <code class="highlighter-rouge">pip</code>。</p>
+<p>大多数 Python 包都使用 pip 命令安装，使用 pip 安装 Flask（其它 Python 包同理）：</p>
 
-<p><strong>1.使用 <code class="highlighter-rouge">pip</code> 安装 <code class="highlighter-rouge">Flask</code>（其它 Python 包同理）</strong></p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install flask
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $ pip install flask
 </code></pre></div></div>
 
 <h2 id="一个简单的-demo">一个简单的 Demo</h2>
 
-<pre><code class="language-PYTHON">from flask import Flask
-from flask import abort
-from flask import redirect
+<p>./index.py</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from flask import Flask
 
 app = Flask(__name__)
 
@@ -197,97 +184,103 @@ def index():
 
 @app.route('/user/&lt;name&gt;')
 def sayHello(name):
-    if name == 'baidu':
-        return redirect('http://www.baidu.com')
-    elif name == 'NO':
-        return abort(404)
-        
-    return '&lt;h1&gt; Hello,%s &lt;/h1&gt;' % name
+    return '&lt;h1&gt;Hello %s!&lt;/h1&gt;' % name
 
 if __name__ == '__main__':
     app.run(debug=True)
-</code></pre>
+</code></pre></div></div>
+
+<p>启动程序：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $ python index.py
+</code></pre></div></div>
+
+<p>访问 <a href="http://localhost:5000/">http://localhost:5000/</a> 输出 Hello World！<br />
+访问 <a href="http://localhost:5000/user/Tom">http://localhost:5000/user/Tom</a> 输出  Hello Tom！</p>
 
 <p>从 Demo 中学习路由、修饰器、视图函数、请求、响应概念，一步步分析每行代码：</p>
 
-<p><strong>1.<code class="highlighter-rouge">from flask import Flask</code></strong></p>
+<h5 id="1-from-flask-import-flask">1. from flask import Flask</h5>
 
-<p>从 <code class="highlighter-rouge">flask</code> 库中导入 <code class="highlighter-rouge">Flask</code> 函数，<code class="highlighter-rouge">from flask import abort</code> 和 <code class="highlighter-rouge">from flask import redirect</code> 同理。</p>
+<p>从 flask 库中导入 <code class="highlighter-rouge">Flask</code> 函数</p>
 
-<p><strong>2.<code class="highlighter-rouge">app = Flask(__name__)</code></strong></p>
+<h5 id="2-app--flaskname">2. app = Flask(<strong>name</strong>)</h5>
 
-<p>创建 <code class="highlighter-rouge">Flask</code> 对象 <code class="highlighter-rouge">app</code>，<code class="highlighter-rouge">Flask</code> 类的构造函数只有一个必须指定的参数，即程序主模块或包的名字。在大多数程序中，Python 的 <code class="highlighter-rouge">__name__</code> 变量就是所需要的值。</p>
+<p>创建 <code class="highlighter-rouge">Flask</code> 对象 app，Flask 类的构造函数只有一个必须指定的参数，即程序主模块或包的名字。在大多数程序中，Python 的 <code class="highlighter-rouge">__name__</code> 变量就是所需要的值。</p>
 
-<p><strong>3.<code class="highlighter-rouge">@app.route('/')</code></strong></p>
+<h5 id="3-approute">3. @app.route(‘/’)</h5>
 
-<p>客户端（例如 Web 浏览器）把请求发送给 Web 服务器,Web 服务器再把请求发送给 Flask 程序实例。程序实例需要知道对每个 URL 请求运行哪些代码，所以保存了一个 URL 到 Python 函数的映射关系。处理 URL 和函数之间的关系的程序称为<strong>路由</strong>。</p>
+<p>客户端（例如 Web 浏览器）把请求发送给 Web 服务器，Web 服务器再把请求发送给 Flask 程序实例。程序实例需要知道对每个 URL 请求运行哪些代码，所以保存了一个 URL 到 Python 函数的映射关系。处理 URL 和函数之间的关系的程序称为<strong>路由</strong>。</p>
 
 <p>在 Flask 程序中定义路由的最简便方式，是使用程序实例提供的 <code class="highlighter-rouge">app.route</code> 修饰器，把修饰的函数注册为路由。</p>
 
 <p><strong>修饰器</strong>是 Python 语言的标准特性，可以使用不同的方式修改函数的行为。惯常用法是使用修饰器把函数注册为事件的处理程序。</p>
 
-<p><strong>4.<code class="highlighter-rouge">def index():</code>函数</strong></p>
+<h5 id="4-def-index">4. def index()</h5>
 
 <p><code class="highlighter-rouge">index()</code> 函数放在 <code class="highlighter-rouge">@app.route('/')</code> 后面，所以就是把 <code class="highlighter-rouge">index()</code> 函数注册为路由。</p>
 
-<p>如果部署程序的服务器域名为 <code class="highlighter-rouge">www.example.com</code>,在浏览器中访问 <code class="highlighter-rouge">www.example.com</code> 后，会触发服务器执行 <code class="highlighter-rouge">index()</code> 函数。</p>
+<p>如果部署程序的服务器域名为 http://www.example.com ，在浏览器中访问 http://www.example.com 后，会触发服务器执行 <code class="highlighter-rouge">index()</code> 函数。</p>
 
-<p><strong>5.<code class="highlighter-rouge">@app.route('/user/&lt;name&gt;')</code></strong></p>
+<h5 id="5-approuteuser">5. @app.route(‘/user/<name>')</name></h5>
 
-<p>同 <code class="highlighter-rouge">@app.route('/')</code>，如果部署程序的服务器域名为 <code class="highlighter-rouge">www.example.com</code>，在浏览器中访问 <code class="highlighter-rouge">www.example.com/user/tom</code> 后，会触发服务器执行下方修饰函数 <code class="highlighter-rouge">sayHello(name)</code>。</p>
+<p>同 <code class="highlighter-rouge">@app.route('/')</code>，如果部署程序的服务器域名为 http://www.example.com ，在浏览器中访问 http://www.example.com/user/Tom  后，会触发服务器执行下方修饰函数 <code class="highlighter-rouge">sayHello(name)</code>。</p>
 
-<p><strong>6.<code class="highlighter-rouge">sayHello(name)</code>函数</strong></p>
+<h5 id="6-if-__name__--__main__">6. <code class="highlighter-rouge">if __name__ == '__main__'</code></h5>
 
-<pre><code class="language-PYTHON">    if name == 'baidu':
-        return redirect('http://www.baidu.com')
-    elif name == 'NO':
-        return abort(404)
-        
-    return '&lt;h1&gt; Hello,%s &lt;/h1&gt;' % name
-</code></pre>
+<p>详见 StackOverflow :</p>
 
-<p>假定部署程序的服务器域名为 <code class="highlighter-rouge">www.example.com</code>。</p>
-
-<p>在浏览器中访问 <code class="highlighter-rouge">www.example.com/user/baidu</code>，那么 <code class="highlighter-rouge">redirect()</code> 函数就直接链接到百度了。</p>
-
-<p>注意的是，在使用 <code class="highlighter-rouge">redirect()</code> 函数之前，必须使用 <code class="highlighter-rouge">from flask import redirect</code> 从 flask 库中导入 <code class="highlighter-rouge">redirect()</code> 函数。</p>
-
-<p>在浏览器中访问 <code class="highlighter-rouge">www.example.com/user/NO</code>，那么 <code class="highlighter-rouge">abort()</code> 函数就会触发。</p>
-
-<p><code class="highlighter-rouge">abort()</code> 函数用于处理错误，<code class="highlighter-rouge">abort(404)</code> 返回 404 错误，<code class="highlighter-rouge">abort()</code>函数不会把控制权交还给调用它的函数，而是抛出异常把控制权交给Web服务器。</p>
-
-<p>在浏览器中访问 <code class="highlighter-rouge">www.example.com/user/tom</code>，那么会正确执行，在浏览器中显示 <code class="highlighter-rouge">Hello,tom</code>。</p>
-
-<p><strong>7.<code class="highlighter-rouge">if __name__ == '__main__':</code></strong></p>
-
-<p>一开始也没弄懂，这句话是什么意思。在 <a href="http://stackoverflow.com/questions/419163/what-does-if-name-main-do">StackOverflow</a> 中找到了答案。</p>
+<p><a href="http://stackoverflow.com/questions/419163/what-does-if-name-main-do">http://stackoverflow.com/questions/419163/what-does-if-name-main-do</a></p>
 
 <p>大致翻一下：</p>
+
 <blockquote>
-  <p>当 Python 解释器，读 py 文件,它会执行它发现的所有代码。在执行代码之前，它会定义一些变量。例如，如果这个 py 文件就是主程序，它会设置<code class="highlighter-rouge">__name__</code>变量为<code class="highlighter-rouge">"__main__"</code>。如果这个 py 被引入到别的模块，<code class="highlighter-rouge">__name__</code>会被设置为该模块的名字。</p>
+  <p>当 Python 解释器，读 py 文件,它会执行它发现的所有代码。在执行代码之前，它会定义一些变量。例如，如果这个 py 文件就是主程序，它会设置 <code class="highlighter-rouge">__name__</code> 变量为 <code class="highlighter-rouge">"__main__"</code>。如果这个 py 被引入到别的模块，<code class="highlighter-rouge">__name__</code> 会被设置为该模块的名字。</p>
 
-  <p>举个栗子：
-创建一个 test.py 文件：</p>
+  <p>举个栗子： 创建一个 test.py 文件：</p>
 
-  <pre><code class="language-PYTHON">if __name__ == '__main__':
+  <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if __name__ == '__main__':
 	print '自己主动执行'
 else:
 	print '我被别的模块引入'
-</code></pre>
+</code></pre></div>  </div>
+
+  <p>执行下 <code class="highlighter-rouge">$ python test.py</code> 会输出自己主动执行 直接在命令行中输入 <code class="highlighter-rouge">python3</code> 随后输入 <code class="highlighter-rouge">import test</code>，会输出：<code class="highlighter-rouge">我被别的模块引入</code>。</p>
 </blockquote>
 
-<blockquote>
-  <p>执行下 <code class="highlighter-rouge">$ python test.py</code> 会输出<code class="highlighter-rouge">自己主动执行</code>
-直接在命令行中输入 <code class="highlighter-rouge">python</code> 随后输入 <code class="highlighter-rouge">import test</code>，会输出：<code class="highlighter-rouge">我被别的模块引入</code>。</p>
-</blockquote>
-
-<p><strong>8.<code class="highlighter-rouge">app.run(debug=True)</code></strong></p>
+<h5 id="7-apprundebugtrue">7. app.run(debug=True)</h5>
 
 <p>程序实例用 <code class="highlighter-rouge">run()</code> 方法启动 Flask 继承的开发 Web 服务器。</p>
 
-<p>服务器启动后，会进入轮询，等待并处理请求。轮询会一直进行，直到程序停止，比如按<code class="highlighter-rouge">Ctrl-C</code>键。</p>
+<p>服务器启动后，会进入轮询，等待并处理请求。轮询会一直进行，直到程序停止，比如按 Ctrl-C 键。</p>
 
-<p><code class="highlighter-rouge">debug=True</code>表示启用调试模式。方便我们调试。</p>
+<p><code class="highlighter-rouge">debug=True</code> 表示启用调试模式。方便我们调试。</p>
+
+<h2 id="字符串拼接">字符串拼接</h2>
+
+<h5 id="1-使用--号">1. 使用 <code class="highlighter-rouge">+</code> 号</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>str = 'hello' + 'world'
+</code></pre></div></div>
+
+<h5 id="2-使用字符串-join-方法">2. 使用字符串 <code class="highlighter-rouge">join()</code> 方法</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>names = ['tom', 'jerry']
+nameStr = ' '.join(names)
+</code></pre></div></div>
+
+<h5 id="3-使用--号">3. 使用 <code class="highlighter-rouge">%</code> 号</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name = 'Tom'
+str = '&lt;h1&gt; hello %s!&lt;/h1&gt;' % name
+</code></pre></div></div>
+
+<h5 id="4-format-方法">4. <code class="highlighter-rouge">format()</code> 方法</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>str = '{0} is not {1}'.format('Tom', 'Jerry')
+
+str = '{who} is not {you}'.format(who='Tom', you='Jerry')
+</code></pre></div></div>
 
 
         </section>
@@ -298,21 +291,31 @@ else:
             <!-- #author-->
             
                 
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
                     
                         <figure class="author-image">
-                            <a class="img" href="/author/casper" style="background-image: url(/assets/images/casper.png)"><span class="hidden">casper's Picture</span></a>
+                            <a class="img" href="/author/yiming" style="background-image: url(/assets/images/yiming.jpeg)"><span class="hidden">yiming's Picture</span></a>
                         </figure>
                     
 
                     <section class="author">
-                        <h4><a href="/author/casper">Casper McFadden</a></h4>
+                        <h4><a href="/author/yiming">Yiming</a></h4>
 
                         
-                            <p> A paranormal expert and his daughter bunk in an abandoned house populated by 3 mischievous ghosts and a friendly one, Casper.</p>
+                            <p> 程序猿，90后，生于齐鲁，奋斗在京</p>
                         
                         <div class="author-meta">
-                            <span class="author-location icon-location"> Maine, USA</span>
-                            <span class="author-link icon-link"><a href="http://jekyller.github.io/jasper/"> jekyller.github.io/jasper</a></span>
+                            <span class="author-location icon-location"> Beijing, China</span>
+                            <span class="author-link icon-link"><a href="http://iYiming.me"> iYiming.me</a></span>
                         </div>
                     </section>
 
@@ -335,14 +338,6 @@ else:
                     </section>
                 
             
-                
-            
-                
-            
-                
-            
-                
-            
 
             <!-- Add Disqus Comments -->
             
@@ -357,15 +352,22 @@ else:
 
     <!-- [[! next_post ]] -->
     
-        <a class="read-next-story " style="background-image: url(/assets/images/cover1.jpg)" href="/flask-web-05">
+        <a class="read-next-story " style="background-image: url(/assets/images/cover11.jpeg)" href="/A-Swift-Tour">
             <section class="post">
-                <h2>Flask Web 开发学习笔记（五）</h2>
-                <p>本文主要介绍，如何使用 Flask-Mail 发送邮件。 Flask-Mail 连接到简单邮件传输协议（SMTP）服务器，并把邮件交给这个服务器发送。如果不进行配置，Flask-Mail 会连接 localhost 上的端口 25，无需验证即可发送邮件。 ## 安装 Flask-Mail ``` pip install...</p>
+                <h2>A Swift Tour</h2>
+                <p>A Swift Tour</p>
             </section>
         </a>
     
     <!-- [[! /next_post ]] -->
     <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/assets/images/cover11.jpeg)" href="/fastlane">
+            <section class="post">
+                <h2>fastlane 使用总结</h2>
+                <p>fastlane 真是相见恨晚。</p>
+            </section>
+        </a>
     
     <!-- [[! /prev_post ]] -->
 </aside>

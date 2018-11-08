@@ -26,7 +26,7 @@
     <style>.hljs { background: none; }</style>
 
     <!-- Ghost outputs important style and meta data with this tag -->
-        <link rel="canonical" href="http://localhost:4000//page2/" />
+        <link rel="canonical" href="http://localhost:4000//tag/iOS/" />
     <meta name="referrer" content="origin" />
     <link rel="next" href="/page2/" />
 
@@ -34,14 +34,14 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Yiming's Blog" />
     <meta property="og:description" content="Stay hungry, stay foolish." />
-    <meta property="og:url" content="http://localhost:4000//page2/" />
-    <meta property="og:image" content="/assets/images/cover8.jpeg" />
+    <meta property="og:url" content="http://localhost:4000//tag/iOS/" />
+    <meta property="og:image" content="/assets/images/cover2.jpg" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Yiming's Blog" />
     <meta name="twitter:description" content="Stay hungry, stay foolish." />
-    <meta name="twitter:url" content="http://localhost:4000//page2/" />
-    <meta name="twitter:image:src" content="/assets/images/cover8.jpeg" />
+    <meta name="twitter:url" content="http://localhost:4000//tag/iOS/" />
+    <meta name="twitter:image:src" content="/assets/images/cover2.jpg" />
 
     <script type="application/ld+json">
 {
@@ -49,8 +49,8 @@
     "@type": "Website",
     "publisher": "Yiming's Blog",
     "name": "Yiming's Blog",
-    "url": "http://localhost:4000//page2/",
-    "image": "/assets/images/cover8.jpeg",
+    "url": "http://localhost:4000//tag/iOS/",
+    "image": "/assets/images/cover2.jpg",
     "description": "Stay hungry, stay foolish."
 }
     </script>
@@ -60,7 +60,7 @@
 
 
 </head>
-<body class="paged archive-template nav-closed">
+<body class="tag-template nav-closed">
 
     <!-- The blog navigation links -->
     <div class="nav">
@@ -69,7 +69,7 @@
         <span class="hidden">Close</span>
     </a>
     <ul>
-        <li class="nav-home  nav-current" role="presentation"><a href="/">Home</a></li>
+        <li class="nav-home " role="presentation"><a href="/">Home</a></li>
         <li class="nav-about " role="presentation"><a href="/about">About</a></li>
     </ul>
     <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
@@ -80,12 +80,14 @@
     <div class="site-wrapper">
 
         <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
-        <!-- < default -->
+        <!-- dynamically overriding backgrounds for tags as well as descriptions -->
+
+
+<!-- default -->
 <!-- The tag above means - insert everything in this file into the [body] of the default.hbs template -->
 
-<!-- The big featured header  -->
-<header class="main-header "
-        style="background-image: url(/assets/images/cover8.jpeg) ">
+<!-- If we have a tag cover, display that - else blog cover - else nothing -->
+<header class="main-header tag-head " style="background-image: url(/assets/images/cover2.jpg) ">
     <nav class="main-nav overlay clearfix">
         <a class="blog-logo" href="/"><img src="/assets/images/ghost.png" alt="Blog Logo" /></a>
         
@@ -94,11 +96,14 @@
     </nav>
     <div class="vertical">
         <div class="main-header-content inner">
-            <h1 class="page-title">Yiming's Blog</h1>
-            <h2 class="page-description">Stay hungry, stay foolish.</h2>
+            <h1 class="page-title">Ios</h1>
+            <h2 class="page-description">
+            
+			    A 11-post collection
+            
+            </h2>
         </div>
     </div>
-    <a class="scroll-down icon-arrow-left" href="#content" data-offset="-45"><span class="hidden">Scroll Down</span></a>
 </header>
 
 <!-- The main content area on the homepage -->
@@ -110,17 +115,306 @@
         
             <nav class="pagination" role="pagination">
     
-        
-            <a class="newer-posts" href="/" title="Previous Page">&laquo; Newer Posts</a>
-        
-    
-    <span class="page-number"> Page 2 of 2 </span>
+    <span class="page-number"> Page 1 of 2 </span>
+     
+        <a class="older-posts" href="/tag/iOS/page2/" title="Next Page">Older Posts &raquo;</a>
      
 </nav>
         
     </div>
 
     <!-- This is the post loop - each post will be output using this markup -->
+    
+    <article class="post">
+        <header class="post-header">
+            <h2 class="post-title"><a href="/A-Swift-Tour">A Swift Tour</a></h2>
+        </header>
+        <section class="post-excerpt">
+            <p>A Swift Tour <a class="read-more" href="/A-Swift-Tour">&raquo;</a></p>
+        </section>
+        <footer class="post-meta">
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+
+                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
+                <!-- author -->
+                <a href='/author/yiming'>Yiming</a>
+
+                
+            
+
+            <!-- [[tags prefix=" on "]] -->
+            
+                on
+                
+                    
+                       <a href='/tag/iOS'>iOS</a>,
+                    
+                
+                    
+                       <a href='/tag/Swift'>Swift</a>
+                    
+                
+            
+            <time class="post-date" datetime="2018-10-24">24 Oct 2018</time>
+        </footer>
+    </article>
+    
+    <article class="post">
+        <header class="post-header">
+            <h2 class="post-title"><a href="/fastlane">fastlane 使用总结</a></h2>
+        </header>
+        <section class="post-excerpt">
+            <p>fastlane 真是相见恨晚。 <a class="read-more" href="/fastlane">&raquo;</a></p>
+        </section>
+        <footer class="post-meta">
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+
+                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
+                <!-- author -->
+                <a href='/author/yiming'>Yiming</a>
+
+                
+            
+
+            <!-- [[tags prefix=" on "]] -->
+            
+                on
+                
+                    
+                       <a href='/tag/iOS'>iOS</a>
+                    
+                
+            
+            <time class="post-date" datetime="2017-03-04">04 Mar 2017</time>
+        </footer>
+    </article>
+    
+    <article class="post">
+        <header class="post-header">
+            <h2 class="post-title"><a href="/di-7-zhang-xi-tong-kuang-jia">第 7 章 系统框架</a></h2>
+        </header>
+        <section class="post-excerpt">
+            <p>Core Foundation 与 Foundation 的那些事 <a class="read-more" href="/di-7-zhang-xi-tong-kuang-jia">&raquo;</a></p>
+        </section>
+        <footer class="post-meta">
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+
+                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
+                <!-- author -->
+                <a href='/author/yiming'>Yiming</a>
+
+                
+            
+
+            <!-- [[tags prefix=" on "]] -->
+            
+                on
+                
+                    
+                       <a href='/tag/iOS'>iOS</a>
+                    
+                
+            
+            <time class="post-date" datetime="2016-06-11">11 Jun 2016</time>
+        </footer>
+    </article>
+    
+    <article class="post">
+        <header class="post-header">
+            <h2 class="post-title"><a href="/di-6-zhang-kuai-yu-da-zhong-shu-pai-fa">第 6 章 块与大中枢派发</a></h2>
+        </header>
+        <section class="post-excerpt">
+            <p>块与大中枢派发 <a class="read-more" href="/di-6-zhang-kuai-yu-da-zhong-shu-pai-fa">&raquo;</a></p>
+        </section>
+        <footer class="post-meta">
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+
+                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
+                <!-- author -->
+                <a href='/author/yiming'>Yiming</a>
+
+                
+            
+
+            <!-- [[tags prefix=" on "]] -->
+            
+                on
+                
+                    
+                       <a href='/tag/iOS'>iOS</a>
+                    
+                
+            
+            <time class="post-date" datetime="2016-06-10">10 Jun 2016</time>
+        </footer>
+    </article>
+    
+    <article class="post">
+        <header class="post-header">
+            <h2 class="post-title"><a href="/di-5-zhang-nei-cun-guan-li">第 5 章 内存管理</a></h2>
+        </header>
+        <section class="post-excerpt">
+            <p>内存管理 <a class="read-more" href="/di-5-zhang-nei-cun-guan-li">&raquo;</a></p>
+        </section>
+        <footer class="post-meta">
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+
+                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
+                <!-- author -->
+                <a href='/author/yiming'>Yiming</a>
+
+                
+            
+
+            <!-- [[tags prefix=" on "]] -->
+            
+                on
+                
+                    
+                       <a href='/tag/iOS'>iOS</a>
+                    
+                
+            
+            <time class="post-date" datetime="2016-06-09">09 Jun 2016</time>
+        </footer>
+    </article>
+    
+    <article class="post">
+        <header class="post-header">
+            <h2 class="post-title"><a href="/di-4-zhang-xie-yi-yu-fen-lei">第 4 章 协议与分类</a></h2>
+        </header>
+        <section class="post-excerpt">
+            <p>协议与分类 <a class="read-more" href="/di-4-zhang-xie-yi-yu-fen-lei">&raquo;</a></p>
+        </section>
+        <footer class="post-meta">
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+
+                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
+                <!-- author -->
+                <a href='/author/yiming'>Yiming</a>
+
+                
+            
+
+            <!-- [[tags prefix=" on "]] -->
+            
+                on
+                
+                    
+                       <a href='/tag/iOS'>iOS</a>
+                    
+                
+            
+            <time class="post-date" datetime="2016-06-08">08 Jun 2016</time>
+        </footer>
+    </article>
+    
+    <article class="post">
+        <header class="post-header">
+            <h2 class="post-title"><a href="/di-3-zhang-jie-kou-he-api-she-ji">第 3 章 接口和 API 设计</a></h2>
+        </header>
+        <section class="post-excerpt">
+            <p>接口和 API 设计 <a class="read-more" href="/di-3-zhang-jie-kou-he-api-she-ji">&raquo;</a></p>
+        </section>
+        <footer class="post-meta">
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+
+                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
+                <!-- author -->
+                <a href='/author/yiming'>Yiming</a>
+
+                
+            
+
+            <!-- [[tags prefix=" on "]] -->
+            
+                on
+                
+                    
+                       <a href='/tag/iOS'>iOS</a>
+                    
+                
+            
+            <time class="post-date" datetime="2016-06-07">07 Jun 2016</time>
+        </footer>
+    </article>
     
     <article class="post">
         <header class="post-header">
@@ -245,222 +539,14 @@
         </footer>
     </article>
     
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="/2015-my-book-list">2015 我的书单</a></h2>
-        </header>
-        <section class="post-excerpt">
-            <p>光阴易逝，岁月静添，还有 10 天，2015 就成为昨天。整理下今年读的一些书 ... <a class="read-more" href="/2015-my-book-list">&raquo;</a></p>
-        </section>
-        <footer class="post-meta">
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-
-                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
-                <!-- author -->
-                <a href='/author/yiming'>Yiming</a>
-
-                
-            
-
-            <!-- [[tags prefix=" on "]] -->
-            
-                on
-                
-                    
-                       <a href='/tag/朝花夕拾'>朝花夕拾</a>
-                    
-                
-            
-            <time class="post-date" datetime="2015-12-20">20 Dec 2015</time>
-        </footer>
-    </article>
-    
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="/deng_xiao_ping_shi_dai">读《邓小平时代》</a></h2>
-        </header>
-        <section class="post-excerpt">
-            <p>读完褚时健，就想找找类似的人物传记，于是我想到了他——邓小平。于是买了本《邓小平时代》。实体书，砸死人那种。
-邓爷爷去世时，我六岁。关于他的记忆，马马虎虎。经常听说三起三落，经常听说黑猫白猫，经常听说画了一个圈，经常听说邓小平理论，却不知道为啥三起三落，为啥黑猫白猫，画圈干啥，理论又是啥。借这个机会好好脑补下这段历史。 <a class="read-more" href="/deng_xiao_ping_shi_dai">&raquo;</a></p>
-        </section>
-        <footer class="post-meta">
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-
-                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
-                <!-- author -->
-                <a href='/author/yiming'>Yiming</a>
-
-                
-            
-
-            <!-- [[tags prefix=" on "]] -->
-            
-                on
-                
-                    
-                       <a href='/tag/破万卷'>破万卷</a>
-                    
-                
-            
-            <time class="post-date" datetime="2015-10-12">12 Oct 2015</time>
-        </footer>
-    </article>
-    
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="/du-chu-shi-jian">读《褚时健》</a></h2>
-        </header>
-        <section class="post-excerpt">
-            <p>知道这个人是两年前，在同事的朋友圈文章里。一看经历，好震撼。这算是初识。比较系统的认识他还是从《褚时健 影响企业家的企业家》开始。年前买的书，准备趁过年，在家里看一下 <a class="read-more" href="/du-chu-shi-jian">&raquo;</a></p>
-        </section>
-        <footer class="post-meta">
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-
-                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
-                <!-- author -->
-                <a href='/author/yiming'>Yiming</a>
-
-                
-            
-
-            <!-- [[tags prefix=" on "]] -->
-            
-                on
-                
-                    
-                       <a href='/tag/破万卷'>破万卷</a>
-                    
-                
-            
-            <time class="post-date" datetime="2015-07-17">17 Jul 2015</time>
-        </footer>
-    </article>
-    
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="/ios-sqlite_-migration">iOS SQLite 数据库迁移</a></h2>
-        </header>
-        <section class="post-excerpt">
-            <p>最近不得不考虑关于数据库迁移的问题，原先用了种很不好的处理方式（每次版本升级就删除本地数据库，太傻），于是开始考虑下如何迁移数据库。 <a class="read-more" href="/ios-sqlite_-migration">&raquo;</a></p>
-        </section>
-        <footer class="post-meta">
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-
-                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
-                <!-- author -->
-                <a href='/author/yiming'>Yiming</a>
-
-                
-            
-
-            <!-- [[tags prefix=" on "]] -->
-            
-                on
-                
-                    
-                       <a href='/tag/iOS'>iOS</a>
-                    
-                
-            
-            <time class="post-date" datetime="2015-04-20">20 Apr 2015</time>
-        </footer>
-    </article>
-    
-    <article class="post">
-        <header class="post-header">
-            <h2 class="post-title"><a href="/git">Git 学习之路</a></h2>
-        </header>
-        <section class="post-excerpt">
-            <p>本文章常用的 Git 命令罗列一下，便于查找。 <a class="read-more" href="/git">&raquo;</a></p>
-        </section>
-        <footer class="post-meta">
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-
-                <img class="author-thumb" src="/assets/images/yiming.jpeg" alt="Author image" nopin="nopin" />
-                <!-- author -->
-                <a href='/author/yiming'>Yiming</a>
-
-                
-            
-
-            <!-- [[tags prefix=" on "]] -->
-            
-                on
-                
-                    
-                       <a href='/tag/IT'>IT</a>
-                    
-                
-            
-            <time class="post-date" datetime="2014-11-02">02 Nov 2014</time>
-        </footer>
-    </article>
-    
 
     <!-- Previous/next page links - displayed on every page -->
     
         <nav class="pagination" role="pagination">
     
-        
-            <a class="newer-posts" href="/" title="Previous Page">&laquo; Newer Posts</a>
-        
-    
-    <span class="page-number"> Page 2 of 2 </span>
+    <span class="page-number"> Page 1 of 2 </span>
+     
+        <a class="older-posts" href="/tag/iOS/page2/" title="Next Page">Older Posts &raquo;</a>
      
 </nav>
     

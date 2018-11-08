@@ -622,162 +622,6 @@ anyCommonElements([1, 2, 3], [3])
 	</item>
 
 	<item>
-	  <title>Flask Web 开发学习笔记（一）</title>
-	  <link>//flask-web-01</link>
-	  <author></author>
-	  <pubDate>2018-04-26T08:13:54+08:00</pubDate>
-	  <guid>//flask-web-01</guid>
-	  <description><![CDATA[
-	     <p>本教程前提：</p>
-<ul>
-  <li>Python 3</li>
-  <li>macOS 环境</li>
-</ul>
-
-<h2 id="虚拟环境">虚拟环境</h2>
-
-<p>安装 Flask 最便捷的方式是使用虚拟环境。虚拟环境是 Python 解释器的一个私有副本，在这个环境中你可以安装私有包，而且不会影响系统中安装的全局 Python 解释器。</p>
-
-<p>虚拟环境非常有用，可以在系统的 Python 解释器中避免包的混乱和版本的冲突。为每个程序单独创建虚拟环境可以保证程序只能访问虚拟环境中的包，从而保持全局解释器的干净整洁，使其只作为创建（更多）虚拟环境的源。使用虚拟环境还有个好处，那就是不需要管理员权限。</p>
-
-<h5 id="1创建虚拟环境">1.创建虚拟环境</h5>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python3 -m venv XXX
-</code></pre></div></div>
-
-<h5 id="2激活虚拟环境创建的虚拟环境目录为-venv">2.激活虚拟环境（创建的虚拟环境目录为 <code class="highlighter-rouge">venv</code>）</h5>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ source venv/bin/activate
-</code></pre></div></div>
-
-<h5 id="3退出虚拟环境">3.退出虚拟环境：</h5>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $ deactivate
-</code></pre></div></div>
-
-<h2 id="使用-pip-安装-python-包">使用 pip 安装 Python 包</h2>
-
-<p>大多数 Python 包都使用 pip 命令安装，使用 pip 安装 Flask（其它 Python 包同理）：</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $ pip install flask
-</code></pre></div></div>
-
-<h2 id="一个简单的-demo">一个简单的 Demo</h2>
-
-<p>./index.py</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from flask import Flask
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return '&lt;h1&gt;Hello World!&lt;/h1&gt;'
-
-@app.route('/user/&lt;name&gt;')
-def sayHello(name):
-    return '&lt;h1&gt;Hello %s!&lt;/h1&gt;' % name
-
-if __name__ == '__main__':
-    app.run(debug=True)
-</code></pre></div></div>
-
-<p>启动程序：</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(venv) $ python index.py
-</code></pre></div></div>
-
-<p>访问 <a href="http://localhost:5000/">http://localhost:5000/</a> 输出 Hello World！<br />
-访问 <a href="http://localhost:5000/user/Tom">http://localhost:5000/user/Tom</a> 输出  Hello Tom！</p>
-
-<p>从 Demo 中学习路由、修饰器、视图函数、请求、响应概念，一步步分析每行代码：</p>
-
-<h5 id="1-from-flask-import-flask">1. from flask import Flask</h5>
-
-<p>从 flask 库中导入 <code class="highlighter-rouge">Flask</code> 函数</p>
-
-<h5 id="2-app--flaskname">2. app = Flask(<strong>name</strong>)</h5>
-
-<p>创建 <code class="highlighter-rouge">Flask</code> 对象 app，Flask 类的构造函数只有一个必须指定的参数，即程序主模块或包的名字。在大多数程序中，Python 的 <code class="highlighter-rouge">__name__</code> 变量就是所需要的值。</p>
-
-<h5 id="3-approute">3. @app.route(‘/’)</h5>
-
-<p>客户端（例如 Web 浏览器）把请求发送给 Web 服务器，Web 服务器再把请求发送给 Flask 程序实例。程序实例需要知道对每个 URL 请求运行哪些代码，所以保存了一个 URL 到 Python 函数的映射关系。处理 URL 和函数之间的关系的程序称为<strong>路由</strong>。</p>
-
-<p>在 Flask 程序中定义路由的最简便方式，是使用程序实例提供的 <code class="highlighter-rouge">app.route</code> 修饰器，把修饰的函数注册为路由。</p>
-
-<p><strong>修饰器</strong>是 Python 语言的标准特性，可以使用不同的方式修改函数的行为。惯常用法是使用修饰器把函数注册为事件的处理程序。</p>
-
-<h5 id="4-def-index">4. def index()</h5>
-
-<p><code class="highlighter-rouge">index()</code> 函数放在 <code class="highlighter-rouge">@app.route('/')</code> 后面，所以就是把 <code class="highlighter-rouge">index()</code> 函数注册为路由。</p>
-
-<p>如果部署程序的服务器域名为 http://www.example.com ，在浏览器中访问 http://www.example.com 后，会触发服务器执行 <code class="highlighter-rouge">index()</code> 函数。</p>
-
-<h5 id="5-approuteuser">5. @app.route(‘/user/<name>')</name></h5>
-
-<p>同 <code class="highlighter-rouge">@app.route('/')</code>，如果部署程序的服务器域名为 http://www.example.com ，在浏览器中访问 http://www.example.com/user/Tom  后，会触发服务器执行下方修饰函数 <code class="highlighter-rouge">sayHello(name)</code>。</p>
-
-<h5 id="6-if-__name__--__main__">6. <code class="highlighter-rouge">if __name__ == '__main__'</code></h5>
-
-<p>详见 StackOverflow :</p>
-
-<p><a href="http://stackoverflow.com/questions/419163/what-does-if-name-main-do">http://stackoverflow.com/questions/419163/what-does-if-name-main-do</a></p>
-
-<p>大致翻一下：</p>
-
-<blockquote>
-  <p>当 Python 解释器，读 py 文件,它会执行它发现的所有代码。在执行代码之前，它会定义一些变量。例如，如果这个 py 文件就是主程序，它会设置 <code class="highlighter-rouge">__name__</code> 变量为 <code class="highlighter-rouge">"__main__"</code>。如果这个 py 被引入到别的模块，<code class="highlighter-rouge">__name__</code> 会被设置为该模块的名字。</p>
-
-  <p>举个栗子： 创建一个 test.py 文件：</p>
-
-  <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if __name__ == '__main__':
-	print '自己主动执行'
-else:
-	print '我被别的模块引入'
-</code></pre></div>  </div>
-
-  <p>执行下 <code class="highlighter-rouge">$ python test.py</code> 会输出自己主动执行 直接在命令行中输入 <code class="highlighter-rouge">python3</code> 随后输入 <code class="highlighter-rouge">import test</code>，会输出：<code class="highlighter-rouge">我被别的模块引入</code>。</p>
-</blockquote>
-
-<h5 id="7-apprundebugtrue">7. app.run(debug=True)</h5>
-
-<p>程序实例用 <code class="highlighter-rouge">run()</code> 方法启动 Flask 继承的开发 Web 服务器。</p>
-
-<p>服务器启动后，会进入轮询，等待并处理请求。轮询会一直进行，直到程序停止，比如按 Ctrl-C 键。</p>
-
-<p><code class="highlighter-rouge">debug=True</code> 表示启用调试模式。方便我们调试。</p>
-
-<h2 id="字符串拼接">字符串拼接</h2>
-
-<h5 id="1-使用--号">1. 使用 <code class="highlighter-rouge">+</code> 号</h5>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>str = 'hello' + 'world'
-</code></pre></div></div>
-
-<h5 id="2-使用字符串-join-方法">2. 使用字符串 <code class="highlighter-rouge">join()</code> 方法</h5>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>names = ['tom', 'jerry']
-nameStr = ' '.join(names)
-</code></pre></div></div>
-
-<h5 id="3-使用--号">3. 使用 <code class="highlighter-rouge">%</code> 号</h5>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name = 'Tom'
-str = '&lt;h1&gt; hello %s!&lt;/h1&gt;' % name
-</code></pre></div></div>
-
-<h5 id="4-format-方法">4. <code class="highlighter-rouge">format()</code> 方法</h5>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>str = '{0} is not {1}'.format('Tom', 'Jerry')
-
-str = '{who} is not {you}'.format(who='Tom', you='Jerry')
-</code></pre></div></div>
-
-	  ]]></description>
-	</item>
-
-	<item>
 	  <title>fastlane 使用总结</title>
 	  <link>//fastlane</link>
 	  <author></author>
@@ -1172,53 +1016,6 @@ curl -d authorName=XXX -d title=${msgTitle} -d text=${msgContent} -d imageUrl=${
 <pre><code class="language-Shell">curl -F "file=@XXX.ipa" -F "uKey=XXXX" -F "_api_key=XXX" -F "installType=2" -F "password=XXX" http://www.pgyer.com/apiv1/app/upload
 </code></pre>
 
-	  ]]></description>
-	</item>
-
-	<item>
-	  <title>2016 我的书单</title>
-	  <link>//2016-my-book-list</link>
-	  <author></author>
-	  <pubDate>2017-01-01T05:17:16+08:00</pubDate>
-	  <guid>//2016-my-book-list</guid>
-	  <description><![CDATA[
-	     <p>岁末，整理下今年读的一些书：</p>
-
-<ol>
-  <li>《硅谷钢铁侠-埃隆马斯克》</li>
-  <li>《我们仨》</li>
-  <li>《思考力》</li>
-  <li>《把时间当做朋友》</li>
-  <li>《设计中的设计》</li>
-  <li>《参与感》</li>
-  <li>《成为乔布斯》</li>
-  <li>《天才在左 疯子在右》</li>
-  <li>《如何高效学习》</li>
-  <li>《增长黑客》</li>
-  <li>《如何阅读一本书》</li>
-  <li>《社群营销:方法、技巧与实践》</li>
-  <li>《高效程序员的45个习惯》</li>
-</ol>
-
-<p>除了上面的还啃了一些技术书：Sketch、Python、JS、CSS、HTML、算法。入门了设计；虽然人生苦短，但我还是没用好 Python。技术书还要继续啃下去。</p>
-
-<p>相比去年，少了不少。2016 很忙，很茫。2017 忙就好了，茫的不要。</p>
-
-<p>越努力，越幸运！</p>
-
-	  ]]></description>
-	</item>
-
-	<item>
-	  <title>一个猿的自娱自乐</title>
-	  <link>//my-songs</link>
-	  <author></author>
-	  <pubDate>2016-08-22T02:40:14+08:00</pubDate>
-	  <guid>//my-songs</guid>
-	  <description><![CDATA[
-	     <p>这些年唱的歌，整理下:</p>
-
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 style='margin-left:-10px' src="http://music.163.com/outchain/player?type=4&id=6495042&auto=0&height=430"></iframe>
 	  ]]></description>
 	</item>
 
@@ -1937,6 +1734,624 @@ NSString *string = CFBridgingRelease(cfString);
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[NSMutableArray copy] =&gt; NSArray
 [NSArray mutableCopy] =&gt; NSMutableArray
 </code></pre></div></div>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>第 2 章 对象、消息、运行时</title>
+	  <link>//di-2-zhang-dui-xiang-xiao-xi-yun-xing-shi</link>
+	  <author></author>
+	  <pubDate>2016-06-06T19:22:07+08:00</pubDate>
+	  <guid>//di-2-zhang-dui-xiang-xiao-xi-yun-xing-shi</guid>
+	  <description><![CDATA[
+	     <p>0.用 Objective-C 等面向对象语言编程时，“对象”就是“基本构造单元”（building block），开发者可以通过对象来存储并传递数据。在对象之间传递数据并执行任务的过程就叫做“消息传递”（Messaging）。</p>
+
+<p>1.当应用程序运行起来以后，为其提供相关支持的代码叫做“Objective-C 运行期环境”（Objective-C Runtime），它提供了一些使得对象之间能够提供消息的重要函数，并且包含创建类实例所用的全部逻辑。在理解了运行期环境中各个部分协同工作的原理之后，你的开发水平将会进一步提升。</p>
+
+<p>2.属性（property）是 Objective-C 的一项特性，用于封装对象中的数据。Objective-C对象通常会把其所需要的数据保存为各种实例变量。实例变量一般通过“存取方法”（access method）来访问。其中“获取方法”（getter）用于读取变量值，而“设置方法”（setter）用于写入变量值。这个概念已经定型，并且经由“属性”这一特性而成为 Objective-C 2.0 的一部分，开发者可以令编译器自动编写与属性相关的存取方法。此特性引入了一种新的“点语法”（dot syntax），使开发者可以更为容易地依照类对象来访问存放于其中的数据。</p>
+
+<p>3.要访问属性，可以使用“点语法“，在纯 C 中，如果想访问分配在栈上的 struct 结构体里面的成员，也需使用类似语法。编译器会吧”点语法“转换为对存取方法的调用，使用”点语法“的效果与直接调用存取方法相同。因此，使用”点语法“和直接调用存取方法之间没有丝毫差别。</p>
+
+<p>4.属性还有更多优势。如果使用了属性的话，那么编译器就会自动编写访问这些属性所需的方法，此过程叫做”自动合成“。需要强调的是，这个过程由编译器在编译期执行，所以编辑器里看不到这些”合成方法“的源代码。除了生成方法代码之外，编译器还要自动向类中添加适当类型的实例变量，并且在属性名前面加上下划线，以此作为实例变量的名字。也可以在类的实现代码里通过 @synthesize 语法来指定实例变量的名字。</p>
+
+<p>5.一般情况下无须修改默认的实例变量名，但是如果你不喜欢以下划线来命名实例变量，那么可以用这个办法将其改为自己想要的名字。笔者还是推荐使用默认的命名方案，因为如果所有人都坚持这套方案，那么写出来的代码大家都能看得懂。</p>
+
+<p>6.若不想令编译器自动合成存取方法，则可以自己实现。如果你只实现了其中一个存取方法，那么另外一个还是会由编译器来合成。还有一种办法能阻止编译器自动合成存取方法，就是使用 <code class="highlighter-rouge">@dynamic</code> 关键字,它会告诉编译器：不要自动创建实现属性所用的实例变量，也不要为其创建存取方法。而且，在编译访问属性的代码时，即使编译器发现没有定义存取方法，也不会报错，它相信这些方法能在运行期找到。</p>
+
+<p>7.使用属性时还有一个问题要注意，就是其各种特质（attribute）设定也会影响编译器所生成的存取方法。属性可以拥有的特质分为 4 类：</p>
+
+<ul>
+  <li>原子性</li>
+  <li>读/写权限</li>
+  <li>内存管理语义</li>
+  <li>方法名</li>
+</ul>
+
+<p>8.在属性不添加任何特质时，MRC 默认情况是 <code class="highlighter-rouge">atomic</code>，<code class="highlighter-rouge">assign</code>，<code class="highlighter-rouge">readwrite</code>。ARC 默认情况是 <code class="highlighter-rouge">atomic</code>，<code class="highlighter-rouge">strong</code>，<code class="highlighter-rouge">readwrite</code>。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@property</span> <span class="n">BOOL</span> <span class="n">checked</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><a href="http://stackoverflow.com/questions/5802511/what-are-the-defaults-values-for-property-in-ios">http://stackoverflow.com/questions/5802511/what-are-the-defaults-values-for-property-in-ios</a><br />
+<a href="http://www.devtalking.com/articles/you-should-to-know-property/">http://www.devtalking.com/articles/you-should-to-know-property/</a></p>
+
+<p>9.原子性：在默认情况下，由编译器所合成的方法会通过锁定机制确保其原子性（atomicity）。如果属性具备 nonatomic 特质，则不使用同步锁。</p>
+
+<p>10.具备 readwrite（读写）特质的属性拥有“获取方法”（getter）与“设置方法”（setter）。</p>
+
+<p>11.具备 readonly（只读）特质的属性仅拥有获取方法。你可以使用此特质把某个属性对外公开为只读属性，然后在“class-continuation 分类”中将其重新定义为读写属性。</p>
+
+<p>12.<code class="highlighter-rouge">assign</code> 设置方法 只会执行针对 “纯量类型”（scalar type，例如 <code class="highlighter-rouge">CGFloat</code> 或 <code class="highlighter-rouge">NSInteger</code> 等）的简单赋值操作。</p>
+
+<p>13.<code class="highlighter-rouge">strong</code> 此特质表明该属性定义了一种“拥有关系”（owning relationship）。为这种属性设置新值时，设置方法会先保留新值，并释放旧值，然后再将新值设置上去。</p>
+
+<p>14.<code class="highlighter-rouge">weak</code> 此特质表明该属性定义了一种“非拥有关系”（nonowning relationship）。为这种属性设置新值时，设置方法既不保留新值，也不释放旧值。此特质同 <code class="highlighter-rouge">assign</code> 类似，然而在属性所指的对象遭到销毁时，属性值也会清空（nil out）。</p>
+
+<p>15.<code class="highlighter-rouge">unsafe_unretained</code> 此特质的语义和 assign 相同，但是它适用于 对象类型，该特质表达一种 “非拥有关系”（“不保留”，unretained），当目标对象遭到销毁时，属性值不会自动清空（“不安全”，unsafe），这一点与 weak 有区别。</p>
+
+<p>16.<code class="highlighter-rouge">copy</code> 此特质所表达的所属关系与 <code class="highlighter-rouge">strong</code> 类似。然而设置方法并不保留新值，而是将其拷贝（<code class="highlighter-rouge">copy</code>）。</p>
+
+<p>17.当属性类型为 <code class="highlighter-rouge">NSString*</code> 时，经常用此特质来保护其封装性。因为传递给设置方法的新值有可能指向一个 NSMutableString 类的实例。这个类是 NSString 的子类，表示一种可以修改其值的字符串，此时若是不拷贝字符串，那么设置完属性之后，字符串的值就可能会在对象不知情的情况下遭人更改。所以，这时就要拷贝一份“不可变”（immutable）的字符串，确保对象中的字符串值不会无意间变动。只要实现属性所用的对象是“可变的”（mutable），就应该在设置新属性值时拷贝一份。<code class="highlighter-rouge">NSDictionary</code> 和 <code class="highlighter-rouge">NSArray</code> 也应如此。</p>
+
+<p>18.可通过如下特质来制定存取方法的方法名：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isOn</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">on</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>19.setter=<name> 指定“设置方法”的方法名。</name></p>
+
+<p>20.通过上述特质，可以微调由编译器所合成的存取方法。不过需要注意：若是自己来实现这些存取方法，那么应该<strong>保证其具备相关属性所声明的特质</strong>。比方说，如果将某个属性声明为 copy，那么就应该在”设置方法“中拷贝相关对象，否则会误导该属性的使用者，而且，若是不遵从这一约定，还会令程序产生 bug。</p>
+
+<p>21.由于是只读属性，所以编译器不会为其创建对应的“设置方法”，即便如此，我们还是要写上这些属性的语义，以此表明<strong>初始化方法在设置这些属性值时所用的方式</strong>。要是不写明语义的话。该类的调用者就不知道初始化方法里会拷贝这些属性，他们有可能会在调用初始化方法之前自行拷贝属性值。这种操作是多余而且低效的。</p>
+
+<p>22.<code class="highlighter-rouge">atomic</code> 与 <code class="highlighter-rouge">nonatomic</code> 的区别</p>
+
+<p>具备 <code class="highlighter-rouge">atomic</code> 特质的获取方法会通过锁定机制来保证其原子性。这也就是说，如果两个线程读写同一属性，那么不论何时，总能看到有效的属性值。若是不加锁的话（或者说使用 nonatomic 语义），那么当其中一个线程正在改写某属性值，另一个线程也许会突然闯入，把尚未修改好的属性值读取出来。发生这种情况时，线程读到的属性值可能不对。</p>
+
+<p>23.atomic 一定是线程安全的吗？</p>
+
+<p>如果开发过 iOS 程序，你就会发现，其中所有属性都声明为 nonatomic。这样做的历史原因是：<strong>在 iOS 中使用同步锁的开销较大，这会带来性能问题。一般情况下并不要求属性必须是“原子的”，因为这并不能保证“线程安全”（thread safety），若要实现“线程安全 ”的操作，还需采用更为深层的锁定机制才行。例如，一个线程在连续多次读取某属性值的过程中有别的线程在同时改写该值，那么即便将属性声明为 atomic，也还是会读到不同的属性值。因此，开发 iOS 程序时一般都会使用 nonatomic 属性。</strong>但是在开发Mac OS X 程序时，使用 atomic 属性通常都不会有性能瓶颈。</p>
+
+<p>24.消息转发</p>
+
+<p><a href="http://www.jianshu.com/p/1bde36ad9938">http://www.jianshu.com/p/1bde36ad9938</a></p>
+
+<p>25.Runtime（貌似满大街都是的文章了）</p>
+
+<p><a href="http://www.jianshu.com/p/e071206103a4">http://www.jianshu.com/p/e071206103a4</a></p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>第 1 章 熟悉 Objective-C</title>
+	  <link>//di-1-zhang-shou-xi-objective-c</link>
+	  <author></author>
+	  <pubDate>2016-06-05T11:08:45+08:00</pubDate>
+	  <guid>//di-1-zhang-shou-xi-objective-c</guid>
+	  <description><![CDATA[
+	     <p>0.若是用过另一种面向对象语言（C++ 或 Java），那么就能理解 Objective-C 所用的许多范式与模板了。然而语法上也许会显得陌生，因为该语言使用“消息结构”(messaging structure)而非“函数调用”（function calling）。Objective-C 语言由 Smalltalk 演化而来，后者是消息型语言的鼻祖。</p>
+
+<p>1.关键区别在于：<strong>使用消息结构的语言，其运行时所应执行的代码由运行环境来决定；而使用函数调用的语言，则由编译器决定</strong>。</p>
+
+<p>2.对 1 注解：如果范例代码中调用的函数是多态的，那么在运行时就要按照“虚方法表”（virtual table）来查出到底应该执行哪个函数实现。而采用消息结构的语言，不论是否多态，总是在运行时才会去查找索要执行的方法。实际上，编译器甚至不关心接收消息的对象是何种类型。接收消息的对象也要在运行时处理，其过程叫做“动态绑定”（dynamic binding）。</p>
+
+<p>3.Objective-C 的重要工作都由“运行期组件”（runtime component）而非编译器来完成。使用 Objective-C 的面向对象特性所需的全部数据结构及函数都在运行期组件里面。举例来说，运行期组件中含有全部内存管理方法。<strong>运行期组件本质上就是一种与开发者所编写代码相连接的“动态库”（dynamic library），其代码能把开发者编写的所有程序粘合起来。这样的话，只需更新运行期组件，即可提升应用程序性能。</strong>而那种许多工作都在“编译期”（compile time）完成的语言，若想获得类似的性能提升，则要重新编译应用程序代码。</p>
+
+<p>4.初始化一个字符串：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSString *someString = @"The string";
+</code></pre></div></div>
+
+<p>这种语法基本上是照搬 C 语言的。它声明了一个名为 <code class="highlighter-rouge">someString</code> 的变量,其类型是 <code class="highlighter-rouge">NSString*</code>。也就是说，此变量为指向 <code class="highlighter-rouge">NSString</code> 的 指针。所有 Objective-C 语言的对象都必须这样声明，因为对象所占内存总是分配在”堆空间”（heap space）中，而绝不会分配在“栈”（stack）上。</p>
+
+<p>5.分配在堆中的内存必须直接管理，而分配在栈上用于保存变量的内存则会在其栈帧弹出时自动清理。</p>
+
+<p>6.Objective-C 将堆内存管理抽象出来了。不需要用 <code class="highlighter-rouge">malloc</code> 及 <code class="highlighter-rouge">free</code> 来分配或释放对象所占内存。Objective-C 运行期环境就把这部分工作抽象为一套内存管理架构，名叫“引用计数”。</p>
+
+<p>7.在 Objective-C 代码中，有时会遇到定义里不含 <code class="highlighter-rouge">*</code> 的变量,它们可能会使用“栈空间”（stack space）。这些变量所保存的不是 Objective-C 对象。比如 CoreGraphic 框架中的 <code class="highlighter-rouge">CGRect</code> 是 C 结构体。整个系统框架都在用这种结构体，因为如果改用 Objective-C 对象来做的话。</p>
+
+<p>8.Objective-C 为 C 语言添加了面向对象特性，是其超集。Objective-C 使用动态绑定的消息结构，也就是说，在运行时才会检查对象类型。接收一条消息之后，究竟应执行何种代码，由运行期环境而非编译器来决定。</p>
+
+<p>9.除非确有必要，否则不要引入头文件。一般来说，应在某个类的头文件中使用<strong>向前声明</strong>（如果提前声明 <code class="highlighter-rouge">Person</code> 类，使用：<code class="highlighter-rouge">@class Person;</code>）来提及别的类，并在实现文件中引入那些类的头文件。这样做可以尽量降低类之间的耦合。<strong>若引入许多根本用不到的内容，会增加编译时间</strong>。</p>
+
+<p>10.看下面这个例子(仅列出.h文件)：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//YMPerson.h
+</span><span class="cp">#import &lt;Foundation/Foundation.h&gt;
+#import "YMEmployer.h"
+</span>
+<span class="k">@interface</span> <span class="nc">YMPerson</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">firstName</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">lastName</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">YMEmployer</span> <span class="o">*</span><span class="n">employer</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="c1">//YMEmployer.h
+</span><span class="cp">#import &lt;Foundation/Foundation.h&gt;
+#import "YMPerson.h"
+</span>
+<span class="k">@interface</span> <span class="nc">YMEmployer</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">addEmployee</span><span class="p">:(</span><span class="n">YMPerson</span> <span class="o">*</span><span class="p">)</span> <span class="n">person</span><span class="p">;</span>
+
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>这样会出现问题，虽然使用 <code class="highlighter-rouge">#import</code> 而非 <code class="highlighter-rouge">#include</code> 指令虽然不会导致死循环，但这却意味着两个类有一个无法被正确编译。而使用向前声明却可以解决这个问题。</p>
+
+<p>11.有时候必须要在头文件中引入其他头文件：</p>
+
+<ul>
+  <li>如果你写的类继承自某个超类，则必须引入定义那个超类的头文件。</li>
+  <li>如果要声明你写的类遵从某个协议，那么该协议必须有完整定义，且不能使用向前声明。向前声明只能高度编译器有某个协议，而此时编译器却要知道该协议中定义的方法。</li>
+</ul>
+
+<p>12.引入协议头文件，最好把协议单独放在一个头文件中。然而有些协议，例如“委托协议”，就不用单独写一个头文件了，在这种情况下，协议只有与接收协议委托的类放在一起定义才有意义。</p>
+
+<p>13.每次在头文件中引入其他头文件之前，都要先问问自己这样做是否确有必要。如果可以用向前声明取代引入，那么就不要引入。若因为要实现属性。实例变量或者要遵循协议而必须引入头文件，则应尽量将其一直“ class-continuation 分类”。这样不仅可以所见编译时间，而且还能降低彼此依赖程度。若是依赖关系过于复杂，则会给维护带来麻烦，而且，如果只要把代码的某个部分开放为公共API的话，太复杂的依赖关系也会出现问题。</p>
+
+<p>14.应该使用字面量语法来创建字符串、数值、数组、字典。与创建此类对象的常规方法相比，这么做更加简明扼要。</p>
+
+<p>15.用字面量语法创建数组时要注意，若数组元素对象中有 <code class="highlighter-rouge">nil</code>，则会抛出异常，因为字面量语法实际上指示一种语法糖（ syntactic sugar ），其效果等于是先创建了一个数组，然后把方括号内的所有对象都加到这个数组中。这样会让我们提前知道错误，而使用最原始的方法虽不会抛出异常使我们不好找到异常。</p>
+
+<p>16.字典中的对象和键必须都是 Objective-C 对象，所以不能把整数值（如 <code class="highlighter-rouge">10</code> ）直接放进去，而是将其封装在<code class="highlighter-rouge">NSNumber</code>实例中（ <code class="highlighter-rouge">@10</code> ）才行。</p>
+
+<p>17.使用字面量语法创建出来的字符串、数组、字典对象都是不可变的（immutable）。若想要可变版本的对象，则需复制一份：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSMutableArray *mutable = [[@1, @2, @3] mutableCopy];
+</code></pre></div></div>
+<p>18.字面量语法有个小小的限制，就是除了字符串意外，所差出来对象必须属于 Foundation 框架才行。</p>
+
+<p>19.在编写代码时经常要定义常量。掌握了 Objective-C 与其 C 语言基础的人，也许会用这种方法来做：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define ANIMATION_DURATION 0.3
+</code></pre></div></div>
+
+<p>上述预处理命令会把源代码中的 <code class="highlighter-rouge">ANIMATION_DURATION</code> 字符串替换为 <code class="highlighter-rouge">0.3</code> 。这可能是你想要的效果，不过这样定义出来的常量<strong>没有类型信息</strong>。</p>
+
+<p>20.要想解决上面的问题，应该设法利用编译器的某些特性才对。有个办法比用预处理指令来定义常量更好。比方说，下面这行代码就定义了一个类型为 <code class="highlighter-rouge">NSTimeInteval</code> 的常量：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static const NSTimeInterval kAnimationDuration = 0.3;
+</code></pre></div></div>
+
+<p>这样定义的常量包含类型信息，其好处是清楚地描述了常量的含义。由此可知该常量类型为 <code class="highlighter-rouge">NSTimeInterval</code>,这有助于为其编写开发文档。如果要定义许多变量，那么这种方式能令稍后阅读代码的人更易理解其意图。</p>
+
+<p>21.<strong>若常量局限于某“编译单元”（也就是“实现文件“）之内，则在前面加字母 <code class="highlighter-rouge">k</code>；若常量在类之外可见，则通常以类名为前缀</strong>。</p>
+
+<p>22.若不打算公开某个常量，则应将其定义在使用该常量的实现文件里。变量一定要同时用 <code class="highlighter-rouge">static</code> 与 <code class="highlighter-rouge">const</code> 来声明。</p>
+
+<ul>
+  <li>若视图修改由 <code class="highlighter-rouge">const</code> 修饰符所声明的变量，那么编译器就会报错。</li>
+  <li><code class="highlighter-rouge">static</code> 修饰符则意味着该变量仅在定义此变量的编译单元中可见。编译器每收到一个便一单元，就会输出一份”目标文件”。在 Objective-C 的语境下，“编译单元”一词通常指每个类的实现文件（以 <code class="highlighter-rouge">.m</code> 为后缀名）。假如声明此变量时不加 <code class="highlighter-rouge">static</code>,则编译器会为它创建一个“外部符号”（external symbol）。</li>
+</ul>
+
+<p>23.有时候需要对外公开某个常量。比方说，可能要在类代码中调用NSNotificationCenter来通知他人。用一个对象来派发通知，令其他欲接收通知的对象向该对象注册，这样就能实现此功能了。派发通知时，需要使用字符串来表示此项通知的名称，而这个名字就可以声明为一个外界可见的长值变量(constant variable)。这样的话，注册者无须知道实际字符串值，只需以常值变量来注册自己想要接收的通知即可。应该这样定义：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//在 .h 文件中
+extern NSString *const YMStringConstant;
+
+//在 .m 文件中
+NSString *const YMStringConstant = @"Value";
+</code></pre></div></div>
+
+<p><strong>这个常量在头文件中“声明”，且在实现文件中“定义”。注意 <code class="highlighter-rouge">const</code> 修饰符在常量类型中的位置。</strong></p>
+
+<p>24.注意常量的名字。<strong>为避免名称冲突，最好是用与之相关的类名做前缀</strong>。系统框架中一般都这样做。例如 UIKit 就按照这种方式来声明用作通知名称的全局常量。其中有类似 <code class="highlighter-rouge">UIApplicationDidEnterBackgroundNotification</code> 与 <code class="highlighter-rouge">UIApplicationWillEnterForegroundNotification</code> 这样的常量名。</p>
+
+<p>25.不要用预处理指令定义常量。这样定义出来的常量不含类型信息，编译器只是会在编译前据此执行查找与替换操作。即使有人重新定义了常量值，<strong>编译器也不会产生警告信息</strong>，这样导致应用程序中的常量值不一致。</p>
+
+<p>26.在实现文件中使用 <code class="highlighter-rouge">static const</code> 来定义”只在编译单元内可见的常量“。由于此类常量不在全局符号表中，所以无需为其名称加前缀。</p>
+
+<p>27.在头文件中使用 <code class="highlighter-rouge">extern</code> 来声明全局变量，并在相关实现文件中定义其值。这种常量要出现在全局符号表中，所以其名称应加以区隔，通常用与之相关的类名称做前缀。</p>
+
+<p>28.应该用枚举来表示状态机的状态、传递给方法的选项以及状态吗等值，给这些值起个易懂的名字。</p>
+
+<p>29.如果把传递给某个方法的选项表示为枚举类型，而多个选项又可同时使用。那么就讲各选项值定义为 <code class="highlighter-rouge">2</code> 的幂，以便通过按位或操作将其组合起来。</p>
+
+<p>30.用 <code class="highlighter-rouge">NS_ENUM</code> 与 <code class="highlighter-rouge">NS_OPTIONS</code> 宏来定义枚举类型，并指明其底层数据类型。这样做可以确保枚举是用开发者所选的底层数据类型实现出来的，而不会采用编译器所选的类型。</p>
+
+<p>31.我们总习惯在 <code class="highlighter-rouge">switch</code> 语句中加上 <code class="highlighter-rouge">default</code> 分支。然而，若是用枚举来定义状态机，则最好不要有 <code class="highlighter-rouge">default</code> 分支。这样的话，如果稍后又加了一种状态，那么编译器就会发出警告信息，提示新加入的状态并未在 <code class="highlighter-rouge">switch</code> 分支中处理。假如写上了 <code class="highlighter-rouge">default</code> 分支，那么它就会处理这个新状态，从而导致编译器不发警告信息。</p>
+
+<p>32.枚举分为：普通枚举(<code class="highlighter-rouge">NS_ENUM</code>) 和 选项枚举（<code class="highlighter-rouge">NS_OPTIONS</code>），其中选项枚举，如系统中的 <code class="highlighter-rouge">UIViewAutoresizing</code>，这么定义:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef NS_OPTIONS(NSUInteger, UIViewAutoresizing) {
+    UIViewAutoresizingNone                 = 0,
+    UIViewAutoresizingFlexibleLeftMargin   = 1 &lt;&lt; 0,
+    UIViewAutoresizingFlexibleWidth        = 1 &lt;&lt; 1,
+    UIViewAutoresizingFlexibleRightMargin  = 1 &lt;&lt; 2,
+    UIViewAutoresizingFlexibleTopMargin    = 1 &lt;&lt; 3,
+    UIViewAutoresizingFlexibleHeight       = 1 &lt;&lt; 4,
+    UIViewAutoresizingFlexibleBottomMargin = 1 &lt;&lt; 5
+};
+</code></pre></div></div>
+
+<p>选项枚举的原理，见下图：</p>
+
+<p><img src="/images//effective_objectivec_2.0/0.jpg" alt="0.jpg" /></p>
+
+	  ]]></description>
+	</item>
+
+	<item>
+	  <title>聊聊 GCD</title>
+	  <link>//liao-liao-gcd</link>
+	  <author></author>
+	  <pubDate>2016-01-21T00:10:24+08:00</pubDate>
+	  <guid>//liao-liao-gcd</guid>
+	  <description><![CDATA[
+	     <h2 id="什么是-gcd">什么是 GCD</h2>
+
+<p>GCD ( Grand Central Dispatch ) 是 iOS 多任务的核心。在 Mac OS X 10.6 雪豹中首次推出，后被引入到了 iOS 4.0 中。GCD 是基于 C 的 API，是底层的框架，<code class="highlighter-rouge">NSOperationQueue</code> 是在 GCD 的基础上实现的。</p>
+
+<p>GCD 和 Block 的配合使用，可以方便地进行多线程编程。</p>
+
+<h2 id="gcd-包含什么内容">GCD 包含什么内容</h2>
+
+<p>分派队列（ Dispatch Queue ），分派组（ Dispatch Group ），分派屏障（ Dispatch Barrier ）。</p>
+
+<p>除了上面几个比较常用的 GCD 还包含下面几个内容：</p>
+
+<p>分派信号量（ Dispatch Semaphores ）、分派源（ Dispatch Sources ）、分派数据（ Dispatch Data ）以及分派 I/O 。</p>
+
+<p>本文仅介绍分派队列，分派组，分派屏障 GCD 等常用内容。</p>
+
+<h2 id="同步异步并行串行并行并发-概念">同步、异步，并行、串行，并行、并发 概念</h2>
+
+<h4 id="同步">同步</h4>
+
+<p>所谓同步，就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回。</p>
+
+<p>同步代码如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+dispatch_sync(concurrentQueue, ^(){
+   NSLog(@"A");
+});
+
+dispatch_sync(concurrentQueue, ^(){
+   NSLog(@"B");
+});
+
+// 先输出 A 后输出 B 。
+</code></pre></div></div>
+
+<h4 id="异步">异步</h4>
+
+<p>异步的概念和同步相对。当一个异步过程调用发出后，不等待返回结果就执行下面的功能。</p>
+
+<p>异步代码如下：</p>
+
+<pre><code class="language-C">dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+dispatch_async(concurrentQueue, ^(){
+   NSLog(@"A");
+});
+
+dispatch_async(concurrentQueue, ^(){
+   NSLog(@"B");
+});
+
+// 可能先输出 A 后输出 B ，也可能先输出 B 后输出 A。因为异步下是没执行完就执行下面的功能
+</code></pre>
+
+<h4 id="并行与并发区别">并行与并发区别</h4>
+
+<p>当有多个线程在操作时，如果系统只有一个 CPU，则它根本不可能真正同时进行一个以上的线程，它只能把 CPU 运行时间划分成若干个时间段，再将时间段分配给各个线程执行，在一个时间段的线程代码运行时，其它线程处于挂起状态.这种方式我们称之为并发（ Concurrent ）。</p>
+
+<p>当系统有一个以上 CPU 时,则线程的操作有可能非并发.当一个 CPU 执行一个线程时,另一个CPU 可以执行另一个线程,两个线程互不抢占 CPU 资源,可以同时进行,这种方式我们称之为并行（ Parallel ）。</p>
+
+<h2 id="分配队列">分配队列</h2>
+
+<p>串行队列（一个队列一个队列的执行）：</p>
+
+<ul>
+  <li>
+    <p>主队列。最常见的串行队列。通过 <code class="highlighter-rouge">dispatch_get_main_queue()</code> 获得。</p>
+  </li>
+  <li>
+    <p>自己创建的串行队列。</p>
+
+    <pre><code class="language-C">dispatch_queue_t serialQueue = dispatch_queue_create("me.iYiming.serialQueue", DISPATCH_QUEUE_SERIAL);
+</code></pre>
+
+    <p>或者</p>
+
+    <pre><code class="language-C">dispatch_queue_t serialQueue = dispatch_queue_create("me.iYiming.serialQueue", NULL);
+</code></pre>
+  </li>
+</ul>
+
+<p>并发队列（几个队列 “同时” 执行）：</p>
+
+<ul>
+  <li>
+    <p>系统队列</p>
+
+    <pre><code class="language-C">#define DISPATCH_QUEUE_PRIORITY_HIGH 2 // 高
+#define DISPATCH_QUEUE_PRIORITY_DEFAULT 0 // 默认
+#define DISPATCH_QUEUE_PRIORITY_LOW (-2) // 低
+#define DISPATCH_QUEUE_PRIORITY_BACKGROUND INT16_MIN //最低
+</code></pre>
+
+    <pre><code class="language-C">dispatch_queue_t concurrentQueue = dispatch_get_global_queue(XXXX, 0); // 并发队列  XXXX 表示 上面的四个参数，
+</code></pre>
+  </li>
+  <li>
+    <p>自己创建的并发队列</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dispatch_queue_t concurrentQueue = dispatch_queue_create("me.iYiming.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>补充：</p>
+
+<p><code class="highlighter-rouge">dispatch_set_target_queue()</code> 用法：</p>
+
+<p>设置自己创建队列的目标队列，使创建的队列优先级和目标队列一样。</p>
+
+<p><a href="http://blog.csdn.net/growinggiant/article/details/41077221">http://blog.csdn.net/growinggiant/article/details/41077221</a></p>
+
+<p>上文中说了种情况：</p>
+
+<blockquote>
+  <p>一般都是把一个任务放到一个串行的 Queue 中，如果这个任务被拆分了，被放置到<strong>多个串行的 Queue 中</strong>，但实际还是需要这个任务同步执行，那么就会有问题，因为多个串行 Queue 之间是并行的。</p>
+
+  <p>那该如何是好呢？</p>
+
+  <p>这是就可以使用 <code class="highlighter-rouge">dispatch_set_target_queue</code> 了。
+如果将多个串行的 Queue 使用 <code class="highlighter-rouge">dispatch_set_target_queue</code> 指定到了同一目标，那么着多个串行 Queue 在目标 Queue 上就是同步执行的，不再是并行执行。</p>
+</blockquote>
+
+<p>除了上面链接中说到的用处外（也可以用别的方式替代），感觉没多大用处？！</p>
+
+<h2 id="分配组">分配组</h2>
+
+<p>关于使用分配组，我用到的情况就是这个情形下：执行 A 任务, B 任务后(A、B 任务可以同时做)，最后再做 C 任务。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dispatch_queue_t concurrentQueue = dispatch_queue_create("me.iYiming.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+
+dispatch_group_t group = dispatch_group_create();
+
+dispatch_group_async(group, concurrentQueue, ^{
+   // A 任务
+});
+
+dispatch_group_async(group, concurrentQueue, ^{
+   // B 任务
+});
+
+dispatch_group_notify(group, concurrentQueue, ^{
+   // C 任务
+});
+</code></pre></div></div>
+
+<h2 id="分配屏障">分配屏障</h2>
+
+<p>我们使用分配屏障会等当前队列前面处理全部执行结束后，再将指定的处理追加到该队列上，然后再由分配屏障追加的处理执行完毕后，当前队列才恢复为一般的动作，追加到该队列的处理又开始执行。</p>
+
+<h4 id="代码">代码</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dispatch_queue_t myQueue = dispatch_get_global_queue(0, 0);
+   
+dispatch_async(myQueue, ^{
+   NSLog(@"123");
+});
+
+dispatch_async(myQueue, ^{
+   NSLog(@"456");
+});
+
+dispatch_barrier_async(myQueue, ^{
+   NSLog(@"789");
+});
+
+dispatch_async(myQueue, ^{
+   NSLog(@"10");
+});
+</code></pre></div></div>
+
+<p>输出结果，先输出 <code class="highlighter-rouge">123</code> 或者 <code class="highlighter-rouge">456</code>，再输出 <code class="highlighter-rouge">789</code>，最后才输出 <code class="highlighter-rouge">10</code>。</p>
+
+<h4 id="举个例子">举个例子</h4>
+
+<p>我们都会对数据进行读写操作，为了防止多个线程对数据进行安全访问。我们需要使用锁来实现某种同步机制。</p>
+
+<p>在 GCD 出现之前，有 2 种办法：</p>
+
+<ul>
+  <li>采用内置的“同步块”</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> - (void)synchronizationMethod {
+      @synchronized(self) {
+          // 使用同步块
+      }
+  }
+</code></pre></div></div>
+
+<ul>
+  <li>直接使用 <code class="highlighter-rouge">NSLock</code> 对象（也可以使用 <code class="highlighter-rouge">NSRecursiveLock</code> 这种递归锁）。</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  _lock = [[NSLock alloc] init];
+
+  - (void)synchronizationMethod {
+      [_lock lock];
+      //NSLock 对象方式
+      [_lock unlock];
+  }
+</code></pre></div></div>
+
+<blockquote>
+  <p>互斥锁分为递归锁和非递归锁。</p>
+
+  <p>同一个线程可以多次获取同一个递归锁，不会产生死锁。<br />
+如果一个线程多次获取同一个非递归锁，则会产生死锁。</p>
+</blockquote>
+
+<p>这 2 种方法都很好，不过也有其缺陷。比方说：</p>
+
+<ul>
+  <li>
+    <p>在极端情况下，同步块会导致死锁，另外，其效率也不见得高.</p>
+  </li>
+  <li>
+    <p>滥用 <code class="highlighter-rouge">@sychronized(self)</code> 会很危险，因为所有同步块都会彼此抢夺同一个锁。要是有很多个属性都这么写的话，那么每个属性的同步块都要等其他所有同步块执行完毕才能执行，这也许不是我们想要的结果。</p>
+  </li>
+</ul>
+
+<p>我们可以使用 “串行同步队列”，将读取操作及写入操作都安排在同一个队列里，即可保证数据同步。</p>
+
+<pre><code class="language-C">_serialQueue = dispatch_queue_create("me.iYiming.serialQueue", DISPATCH_QUEUE_SERIAL);
+        
+- (NSString *)someString {
+    __block NSString *localSomeString;
+    
+    __weak typeof(self) wakeSelf = self;
+    dispatch_sync(_serialQueue, ^{
+        localSomeString = wakeSelf.someString;
+    });
+    return localSomeString;
+}
+
+- (void)setSomeString:(NSString *)someString {
+    __weak typeof(self) wakeSelf = self;
+    dispatch_sync(_serialQueue, ^{
+        wakeSelf.someString = someString;
+    });
+}
+</code></pre>
+
+<p>还可以进一步优化。设置方法并不一定非得是同步的。设置实例变量所用的块，并不需要向设置返回什么值。也就是可以修改成如下：</p>
+
+<pre><code class="language-C">- (void)setSomeString:(NSString *)someString {
+    __weak typeof(self) wakeSelf = self;
+    dispatch_async(_serialQueue, ^{
+        wakeSelf.someString = someString;
+    });
+}
+</code></pre>
+
+<p>但经过测试一下程序性能，那么可能会发现这种写法比原来慢，因为执行异步派发时，需要拷贝块。若拷贝所用的时间明显超过执行块所花的时间，则这种做法将比原来更慢。</p>
+
+<p>多个获取方法可以并发执行，而获取方法与设置方法之间不能并发执行，利用这个特点，还能写出更快一些的代码来。</p>
+
+<pre><code class="language-C">_concurrentQueue = dispatch_queue_create("me.iYiming.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+
+- (NSString *)someString {
+    __block NSString *localSomeString;
+    
+    __weak typeof(self) wakeSelf = self;
+    dispatch_sync(_concurrentQueue, ^{
+        localSomeString = wakeSelf.someString;
+    });
+    return localSomeString;
+}
+
+- (void)setSomeString:(NSString *)someString {
+    __weak typeof(self) wakeSelf = self;
+    dispatch_barrier_sync(_concurrentQueue, ^{ // 同步屏障
+        wakeSelf.someString = someString;
+    });
+}
+</code></pre>
+
+<p><strong>使用并发队列和分配屏障可实现高效率的数据库访问和文件访问。</strong></p>
+
+<h2 id="gcd-vs-nsoperation">GCD VS NSOperation</h2>
+
+<p>GCD 的优点：</p>
+
+<ol>
+  <li>GCD 提供的 <code class="highlighter-rouge">dispatch_after</code> 支持调度下一个操作的开始时间而不是直接进入睡眠。</li>
+  <li><code class="highlighter-rouge">NSOperation</code> 中没有类似 <code class="highlighter-rouge">dispatch_source_t</code> , <code class="highlighter-rouge">dispatch_io</code> , <code class="highlighter-rouge">dispatch_data_t</code> , <code class="highlighter-rouge">dispatch_semaphore_t</code> 等操作。</li>
+</ol>
+
+<p><code class="highlighter-rouge">NSOperation</code> 的优点：</p>
+
+<ol>
+  <li>GCD 没有操作依赖。我们可以让一个 Operation 依赖于另一个 Operation，这样的话尽管两个 Operation 处于同一个并行队列中，但前者会等后者执行完毕后再执行；</li>
+  <li>GCD 没有操作优先级（ GCD 有队列优先级），能够使同一个并行队列中的任务区分先后地执行，而在 GCD 中，我们只能区分不同任务队列的优先级，如果要区分 Block 任务的优先级，也需要大量的复杂代码；</li>
+  <li>GCD 没有 KVO。<code class="highlighter-rouge">NSOperation</code> 可以监听一个 Operation 是否完成或取消，这样能比 GCD 更加有效地掌控我们执行的后台任务</li>
+  <li>在 <code class="highlighter-rouge">NSOperationQueue</code> 中，我们可以随时取消已经设定要准备执行的任务(当然，已经开始的任务就无法阻止了)，而 GCD 没法停止已经加入 Queue 的 Block(其实是有的，但需要许多复杂的代码)</li>
+  <li>我们能够对 <code class="highlighter-rouge">NSOperation</code> 进行继承，在这之上添加成员变量与成员方法，提高整个代码的复用度，这比简单地将 Block 任务排入执行队列更有自由度，能够在其之上添加更多自定制的功能。</li>
+</ol>
+
+<h2 id="使用-dispatch_once-创建单例">使用 <code class="highlighter-rouge">dispatch_once</code> 创建单例</h2>
+
+<p>直接上代码：</p>
+
+<pre><code class="language-C">  //保存单例对象的静态全局变量
+  static id _instance;
+  + (instancetype)sharedTools {
+      return [[self alloc] init];
+  }
+  
+  //在调用 alloc 方法之后，最终会调用 allocWithZone 方法
+  + (instancetype)allocWithZone:(struct _NSZone *)zone {
+      //保证分配内存的代码只执行一次
+      static dispatch_once_t onceToken;
+      dispatch_once(&amp;onceToken, ^{
+          _instance = [super allocWithZone:zone];
+      });
+      return _instance;
+  }
+  
+  //这是个对象方法，既然有对象而且是单例，那么调用者就是这个单例对象了，那就返回调用的对象就行
+  - (id)copyWithZone:(NSZone *)zone {
+      return self;
+  }
+  
+  //这是个对象方法，既然有对象而且是单例，那么调用者就是这个单例对象了，那就返回调用的对象就行
+  - (id)mutableCopyWithZone:(NSZone *)zone {
+      return self;
+  }
+  
+  #if __has_feature(objc_arc)
+  //如果是ARC环境
+  #else
+  //如果不是 ARC 环境
+
+  //既然是单例对象，总不能被人给销毁了吧，一旦销毁了，分配内存的代码已经执行过了，就再也不能创建对象了。所以覆盖掉release操作
+  - (oneway void)release {
+  
+  }
+  
+  //这是个对象方法，既然有对象而且是单例，那么调用者就是这个单例对象了，那就返回调用的对象就行
+  - (instancetype)retain {
+      return self;
+  }
+  
+  //为了便于识别，这里返回 MAXFLOAT ，别的程序员看到这个数据，就能意识到这是单例了。纯属装逼……
+  - (NSUInteger)retainCount {
+      return MAXFLOAT;
+  }
+  #endif
+</code></pre>
+
+<p>当然还有种方式 是使用上面那种 使用 <code class="highlighter-rouge">@synchronized()</code> 方式。但 <code class="highlighter-rouge">dispatch_once</code> 更高效，它没有使用重量级的同步机制，若是那样做的话，每次运行代码前都要获取锁，相反，此函数采用 “原子访问” 来查询标记，以判断其所对应的代码原来是否已经执行过。</p>
+
+<h2 id="参考文章">参考文章</h2>
+
+<p><a href="http://www.cnblogs.com/NickyYe/archive/2008/12/01/1344802.html">http://www.cnblogs.com/NickyYe/archive/2008/12/01/1344802.html</a></p>
+
+<p><a href="http://www.tanhao.me/pieces/616.html/">http://www.tanhao.me/pieces/616.html/</a></p>
+
+<p><a href="http://blog.csdn.net/likendsl/article/details/8568961">http://blog.csdn.net/likendsl/article/details/8568961</a></p>
+
+<p><a href="http://stackoverflow.com/questions/15629696/why-my-completionblock-never-gets-called-in-an-nsoperation">http://stackoverflow.com/questions/15629696/why-my-completionblock-never-gets-called-in-an-nsoperation</a></p>
+
+<p><a href="http://blog.csdn.net/hufengvip/article/details/11687699">http://blog.csdn.net/hufengvip/article/details/11687699</a></p>
+
+<p><a href="http://www.jianshu.com/p/d09e2638eb27">http://www.jianshu.com/p/d09e2638eb27</a></p>
+
+<p><a href="http://stackoverflow.com/questions/7651551/why-should-i-choose-gcd-over-nsoperation-and-blocks-for-high-level-applications">http://stackoverflow.com/questions/7651551/why-should-i-choose-gcd-over-nsoperation-and-blocks-for-high-level-applications</a></p>
 
 	  ]]></description>
 	</item>

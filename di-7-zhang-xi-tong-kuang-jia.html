@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Page Meta -->
+    <title>第 7 章 系统框架</title>
+    <meta name="description" content="Core Foundation 与 Foundation 的那些事" />
+
+    <!-- Mobile Meta -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Brand icon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!-- Ghost outputs important style and meta data with this tag -->
+        <link rel="canonical" href="http://localhost:4000//di-7-zhang-xi-tong-kuang-jia" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="Yiming's Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="第 7 章 系统框架" />
+    <meta property="og:description" content="Core Foundation 与 Foundation 的那些事" />
+    <meta property="og:url" content="http://localhost:4000//di-7-zhang-xi-tong-kuang-jia" />
+    <meta property="og:image" content="/assets/images/cover11.jpeg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="第 7 章 系统框架" />
+    <meta name="twitter:description" content="Core Foundation 与 Foundation 的那些事" />
+    <meta name="twitter:url" content="http://localhost:4000//di-7-zhang-xi-tong-kuang-jia" />
+    <meta name="twitter:image:src" content="/assets/images/cover11.jpeg" />
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "Yiming's Blog",
+    "name": "第 7 章 系统框架",
+    "url": "http://localhost:4000//di-7-zhang-xi-tong-kuang-jia",
+    "image": "/assets/images/cover11.jpeg",
+    "description": "Core Foundation 与 Foundation 的那些事"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="Yiming's Blog" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <!-- The blog navigation links -->
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/images/cover11.jpeg) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/images/ghost.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-speeches">
+
+        <header class="post-header">
+            <h1 class="post-title">第 7 章 系统框架</h1>
+            <section class="post-meta">
+            <!-- <a href='/'></a> -->
+
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <a href='/author/yiming'>Yiming</a>
+                
+            
+            <time class="post-date" datetime="2016-06-11">11 Jun 2016</time>
+                <!-- [[tags prefix=" on "]] -->
+                
+                on
+                
+                    
+                       <a href='/tag/iOS'>iOS</a>
+                    
+                
+                
+            </section>
+        </header>
+<p></p>
+        <section class="post-content">
+
+            <p>0.CoreFoundation 与 Foundation 不仅名字相似，而且还有更为紧密的联系。Foundation 框架中的许多功能，都可以在此框架中找到对应的 C 语言 API。有个功能佳作“无缝桥接”（tollfree bridging），可以把 CoreFoundation 中的 C 语言数据结构平滑转换为 Foundation 中的 Objective-C 对象，也可以反向旋转。</p>
+
+<p>1.ARC 下只考虑 Objective-C 对象的内存，对于非 Objective-C 对象，比如 CoreFoundation 中的需要自己考虑内存管理问题。</p>
+
+<p>2.Objective-C 编程的一项重要特点，那就是：经常需要使用底层的 C 语言级 API。用  C 语言来实现 API 的好处是，可以绕过 Objective-C 的运行期系统，从而提升执行速度。</p>
+
+<p>3.多用块枚举，少用 for 循环。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[array enumerateObjectsUsingBlock:^(NSString *  _Nonnull name, NSUInteger idx, BOOL * _Nonnull stop) {
+
+	...
+	
+	if ([name isEqualToString:@"Tom"]) {
+		stop = YES;
+	}
+}];
+</code></pre></div></div>
+
+<p>4.块枚举优点：</p>
+
+<ul>
+  <li>遍历时可以直接从块里获取更多信息。在遍历数组时，可以知道当前所针对的下标。</li>
+  <li>能够修改块的方法签名，以免进行类型转换操作。从效果上讲，相当于把本来需要执行的类型转换操作交给方法签名来做。</li>
+</ul>
+
+<p>5.Core Foundation 与 Foundation 内存问题</p>
+
+<p><code class="highlighter-rouge">__bridge</code> 什么也不做，仅仅是转换。此种情况下：</p>
+
+<ol>
+  <li>从 Cocoa 转换到 Core，需要人工 <code class="highlighter-rouge">CFRetain</code>，否则，Cocoa 指针释放后， 传出去的指针则无效。</li>
+  <li>从 Core 转换到 Cocoa，需要人工 <code class="highlighter-rouge">CFRelease</code>，否则，Cocoa 指针释放后，对象引用计数仍为1，不会被销毁。</li>
+</ol>
+
+<p><code class="highlighter-rouge">__bridge_retained</code> 转换后自动调用 <code class="highlighter-rouge">CFRetain</code>，即帮助自动解决上述 1 的情形。</p>
+
+<p><code class="highlighter-rouge">__bridge_transfer</code> 转换后自动调用 <code class="highlighter-rouge">CFRelease</code>，即帮助自动解决上述 2 的情形。</p>
+
+<ul>
+  <li><code class="highlighter-rouge">__bridge</code> 用法</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSString *string = [NSString stringWithFormat:...];
+CFStringRef cfString = (__bridge CFStringRef)string;
+</code></pre></div></div>
+<p>只是单纯地执行了类型转换，没有进行所有权的转移，也就是说，当 <code class="highlighter-rouge">string</code> 对象被释放的时候，<code class="highlighter-rouge">cfstring</code> 也不能被使用了。</p>
+
+<ul>
+  <li><code class="highlighter-rouge">__bridge_retained</code> 用法</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSString *string = [NSString stringWithFormat:...];
+CFStringRef cfString = (__bridge_retained CFStringRef)string;
+...
+CFRelease(cfString); // 由于Core Foundation的对象不属于ARC的管理范畴，所以需要自己release
+</code></pre></div></div>
+<p>使用 <code class="highlighter-rouge">__bridge_retained</code> 可以通过转换目标处（ <code class="highlighter-rouge">cfString</code> ）的 <code class="highlighter-rouge">retain</code> 处理，来使所有权转移。即使 <code class="highlighter-rouge">string</code> 变量被释放，<code class="highlighter-rouge">cfString</code> 还是可以使用具体的对象。只是有一点，由于 Core Foundation 的对象不属于 ARC 的管理范畴，所以需要自己 <code class="highlighter-rouge">release</code>。</p>
+
+<p>可以用 <code class="highlighter-rouge">CFBridgingRetain</code> 替代 <code class="highlighter-rouge">__bridge_retained</code> 关键字：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSString *string = [NSString stringWithFormat:...];
+CFStringRef cfString = CFBridgingRetain(string);
+...
+CFRelease(cfString); // 由于Core Foundation不在ARC管理范围内，所以需要主动release。
+</code></pre></div></div>
+
+<ul>
+  <li><code class="highlighter-rouge">__bridge_transfer</code></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CFStringRef cfString = CFStringCreate...();
+NSString *string = (__bridge_transfer NSString *)cfString;
+ 
+// CFRelease(cfString); 因为已经用 __bridge_transfer 转移了对象的所有权，所以不需要调用 release
+</code></pre></div></div>
+
+<p>所有权被转移的同时，被转换变量将失去对象的所有权。当 Core Foundation 对象类型向Objective-C 对象类型转换的时候，会经常用到 <code class="highlighter-rouge">__bridge_transfer</code> 关键字。</p>
+
+<p>同样，我们可以使用 <code class="highlighter-rouge">CFBridgingRelease()</code> 来代替 <code class="highlighter-rouge">__bridge_transfer</code> 关键字。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CFStringRef cfString = CFStringCreate...();
+NSString *string = CFBridgingRelease(cfString);
+</code></pre></div></div>
+
+<p>6.<code class="highlighter-rouge">NSCache</code> VS <code class="highlighter-rouge">NSDictionary</code></p>
+
+<ul>
+  <li><code class="highlighter-rouge">NSCache</code> 胜过 <code class="highlighter-rouge">NSDictionary</code> 之处在于，当系统资源将要耗尽时，它可以自动删减缓存。如果采用普通的字典，那么就要自己编写挂钩，在系统发出“低内存”通知时手工删减缓存。</li>
+  <li><code class="highlighter-rouge">NSCache</code>还会先行删减 “最久未使用”对象。</li>
+  <li><code class="highlighter-rouge">NSCache</code>并不会拷贝键，而是会保留它。</li>
+  <li><code class="highlighter-rouge">NSCache 是线程安全的，而</code>NSDictionary`` 则绝对不具备此优势。</li>
+</ul>
+
+<p>7.只有那种“重新计算起来很费事的”数据，才值得放入缓存，比如那些需要从网络获取或从磁盘获取的数据。</p>
+
+<p>8.<code class="highlighter-rouge">+ (void)load</code> 方法</p>
+
+<ul>
+  <li><code class="highlighter-rouge">+ (void)load</code>，对于加入运行期系统的每个类以及分类来说，必定会调用此方法，而且仅调用一次。当包含类或分类的程序库载入系统时，就会执行此方法，而这通常就是指应用程序启动的时候，若程序是为 iOS 平台设计的，则肯定会在此时执行。</li>
+  <li>在 <code class="highlighter-rouge">load</code> 方法中使用其他类是不安全的。</li>
+  <li><code class="highlighter-rouge">load</code> 方法并不像普通的方法那样，它并不遵从那套继承规则。分类和所属的类里，都可能出现 load 方法。此时两种实现代码都会调用，类的实现要比分类的实现先执行。</li>
+  <li><code class="highlighter-rouge">load</code> 方法务必实现得精简些，也就是要尽量减少其所执行的操作，因为整个应用程序在执行 <code class="highlighter-rouge">load</code> 方法时都会阻塞。</li>
+</ul>
+
+<p>9.<code class="highlighter-rouge">+ (void)initialize</code> 方法</p>
+
+<ul>
+  <li>对于每个类来说，该方法会在程序首次用该类之前调用，且只调用一次。它是惰性调用的，只有程序用到了相关的类时，才会调用。</li>
+  <li>此方法与 <code class="highlighter-rouge">+ (void)load</code>方法不同的是，运行期系统在执行该方法时，是处于正常状态的，因此，从运行期系统完整度上来讲，此时可以完全使用并调用任意类中的任意方法。</li>
+  <li><code class="highlighter-rouge">+ (void) initialize</code> 方法与其他消息一样，如果某个类未实现它，而其超类实现了，那么就会运行超类实现的代码。</li>
+</ul>
+
+<p>10.<code class="highlighter-rouge">NSTimer</code> 会保留其目标对象。如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "YMTimerCircularReferenceViewController.h"
+</span>
+<span class="k">@interface</span> <span class="nc">YMTimerCircularReferenceViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSTimer</span> <span class="o">*</span><span class="n">timer</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">YMTimerCircularReferenceViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    
+    <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSTimer</span> <span class="nf">timerWithTimeInterval</span><span class="p">:</span><span class="mi">1</span> <span class="nf">target</span><span class="p">:</span><span class="n">self</span> <span class="n">selector</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">timerSelector</span><span class="p">)</span> <span class="n">userInfo</span><span class="o">:</span><span class="nb">nil</span> <span class="n">repeats</span><span class="o">:</span><span class="nb">YES</span><span class="p">];</span>
+    <span class="p">[[</span><span class="n">NSRunLoop</span> <span class="nf">currentRunLoop</span><span class="p">]</span> <span class="nf">addTimer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="nf">forMode</span><span class="p">:</span><span class="n">NSDefaultRunLoopMode</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">timerSelector</span> <span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span> <span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"YMTimerCircularReferenceViewController dealloc"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>当 <code class="highlighter-rouge">YMTimerCircularReferenceViewController</code> pop 时，上面的 <code class="highlighter-rouge">dealloc</code>方法不被调用。</p>
+
+<p>解决办法，加一个 NSTimer 类别：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "NSTimer+YMBlock.h"
+</span>
+<span class="k">@implementation</span> <span class="nc">NSTimer</span> <span class="p">(</span><span class="nl">YMBlock</span><span class="p">)</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">NSTimer</span> <span class="o">*</span> <span class="n">_Nonnull</span><span class="p">)</span><span class="nf">ym_timerWithTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">ti</span> <span class="nf">block</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">block</span> <span class="nf">userInfo</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="p">)</span><span class="nv">userInfo</span> <span class="nf">repeats</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">yesOrNo</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nf">timerWithTimeInterval</span><span class="p">:</span><span class="n">ti</span> <span class="nf">target</span><span class="p">:</span><span class="n">self</span> <span class="n">selector</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">ym_blockInvoke</span><span class="o">:</span><span class="p">)</span> <span class="n">userInfo</span><span class="o">:</span><span class="p">[</span><span class="n">block</span> <span class="nf">copy</span><span class="p">]</span> <span class="n">repeats</span><span class="o">:</span><span class="n">yesOrNo</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">ym_blockInvoke</span><span class="p">:(</span><span class="n">NSTimer</span> <span class="o">*</span><span class="p">)</span><span class="nv">timer</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">block</span><span class="p">)()</span> <span class="o">=</span> <span class="n">timer</span><span class="p">.</span><span class="n">userInfo</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">block</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>注：此处虽然依然有保留换，<code class="highlighter-rouge">self</code> 引用 <code class="highlighter-rouge">self</code>，因为是类对象，无须回收。</p>
+
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                        <figure class="author-image">
+                            <a class="img" href="/author/yiming" style="background-image: url(/assets/images/yiming.jpeg)"><span class="hidden">yiming's Picture</span></a>
+                        </figure>
+                    
+
+                    <section class="author">
+                        <h4><a href="/author/yiming">Yiming</a></h4>
+
+                        
+                            <p> 程序猿，90后，生于齐鲁，奋斗在京</p>
+                        
+                        <div class="author-meta">
+                            <span class="author-location icon-location"> Beijing, China</span>
+                            <span class="author-link icon-link"><a href="http://iYiming.me"> iYiming.me</a></span>
+                        </div>
+                    </section>
+
+                    <!-- /author  -->
+
+                    <section class="share">
+                        <h4>Share this post</h4>
+                        <a class="icon-twitter" href="http://twitter.com/share?text=第 7 章 系统框架&amp;url=http://localhost:4000di-7-zhang-xi-tong-kuang-jia"
+                            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                            <span class="hidden">Twitter</span>
+                        </a>
+                        <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000di-7-zhang-xi-tong-kuang-jia"
+                            onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                            <span class="hidden">Facebook</span>
+                        </a>
+                        <a class="icon-google-plus" href="https://plus.google.com/share?url=http://localhost:4000di-7-zhang-xi-tong-kuang-jia"
+                           onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                            <span class="hidden">Google+</span>
+                        </a>
+                    </section>
+                
+            
+
+            <!-- Add Disqus Comments -->
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/assets/images/cover11.jpeg)" href="/my-songs">
+            <section class="post">
+                <h2>一个猿的自娱自乐</h2>
+                <p>这些年唱的歌 ☺️</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/assets/images/cover11.jpeg)" href="/di-6-zhang-kuai-yu-da-zhong-shu-pai-fa">
+            <section class="post">
+                <h2>第 6 章 块与大中枢派发</h2>
+                <p>块与大中枢派发</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <!-- The tiny footer at the very bottom -->
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="/">Yiming's Blog</a> &copy; 2018</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/jekyller/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- highlight.js -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- jQuery needs to come before `` so that jQuery can be used in code injection -->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- Ghost outputs important scripts and data with this tag -->
+    <!--  -->
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-69281367-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>
+    <!-- Fitvids makes video embeds responsive and awesome -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <!-- The main JavaScript file for Casper -->
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Page Meta -->
+    <title>Git 学习之路</title>
+    <meta name="description" content="本文章常用的 Git 命令罗列一下，便于查找。" />
+
+    <!-- Mobile Meta -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Brand icon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!-- Ghost outputs important style and meta data with this tag -->
+        <link rel="canonical" href="http://localhost:4000//git" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="Yiming's Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Git 学习之路" />
+    <meta property="og:description" content="本文章常用的 Git 命令罗列一下，便于查找。" />
+    <meta property="og:url" content="http://localhost:4000//git" />
+    <meta property="og:image" content="/assets/images/cover11.jpeg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Git 学习之路" />
+    <meta name="twitter:description" content="本文章常用的 Git 命令罗列一下，便于查找。" />
+    <meta name="twitter:url" content="http://localhost:4000//git" />
+    <meta name="twitter:image:src" content="/assets/images/cover11.jpeg" />
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "Yiming's Blog",
+    "name": "Git 学习之路",
+    "url": "http://localhost:4000//git",
+    "image": "/assets/images/cover11.jpeg",
+    "description": "本文章常用的 Git 命令罗列一下，便于查找。"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="Yiming's Blog" href="/feed.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <!-- The blog navigation links -->
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/about">About</a></li>
+    </ul>
+    <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/assets/images/cover11.jpeg) ">
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/"><img src="/assets/images/ghost.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-speeches">
+
+        <header class="post-header">
+            <h1 class="post-title">Git 学习之路</h1>
+            <section class="post-meta">
+            <!-- <a href='/'></a> -->
+
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <a href='/author/yiming'>Yiming</a>
+                
+            
+            <time class="post-date" datetime="2014-11-02">02 Nov 2014</time>
+                <!-- [[tags prefix=" on "]] -->
+                
+                on
+                
+                    
+                       <a href='/tag/IT'>IT</a>
+                    
+                
+                
+            </section>
+        </header>
+<p></p>
+        <section class="post-content">
+
+            <p>本文章常用的 Git 命令罗列一下，便于查找。</p>
+
+<p>本文主要参考 <a href="https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf">GitHub Git Cheat Sheet</a>。如果你想系统的学习 Git，你可以阅读<a href="http://git-scm.com/doc">官方中文文档</a>,可以从这里下载 <a href="http://pan.baidu.com/s/1c0xUk3e">中文 Pro Git epub 下载地址</a>。后续学到内容，会在本文章里更新。</p>
+
+<p><img src="/images/Git/0.png" alt="Git" /></p>
+
+<h1 id="开始">开始</h1>
+
+<h2 id="介绍">介绍</h2>
+
+<p>在 Git 内部有 3 中状态：</p>
+
+<ul>
+  <li>已修改</li>
+  <li>已暂存（<code class="highlighter-rouge">git add .</code>）</li>
+  <li>已提交 (<code class="highlighter-rouge">git commit -m 'XXX'</code>)</li>
+</ul>
+
+<p>已修改表示修改了某个文件，但是还没有暂存。<br />
+已暂存表示把已修改的文件放在下次提交时要保存的清单中。<br />
+已提交表示该文件已经被安全地保存在本地数据库中了。</p>
+
+<p>基本的 Git 工作流程如下：</p>
+
+<p>1.在工作目录中修改某文件（修改）
+2.对这些修改了的文件作快照，并保存到暂存区（暂存）
+3.提交更新，将保存在暂存区域的文件快照转储到 git 目录中（提交）</p>
+
+<h2 id="安装">安装</h2>
+
+<p>Mac OS X 上已经自带 Git 了。</p>
+
+<p>其他系统，请参考：</p>
+
+<p><a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></p>
+
+<h1 id="配置">配置</h1>
+
+<p>一般在新的系统上，我们都需要先配置下自己的 Git 工作环境。配置工作一般只需一次，以后升级时还会沿用现在的配置。当然，如果需要，你随时可以用相同的命令修改已有的配置。</p>
+
+<h2 id="全局配置">全局配置：</h2>
+
+<p>配置用户名：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config --global user.name 'Tom'
+</code></pre></div></div>
+
+<p>配置邮箱：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config --global user.email 'Tom@163.com'
+</code></pre></div></div>
+
+<h2 id="为某个文件夹单独配置">为某个文件夹单独配置</h2>
+
+<p>1.先进入要配置的文件夹，并初始化 git</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd [文件夹]
+git init
+</code></pre></div></div>
+
+<p>2.配置用户名：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config --local user.name 'Jerry'
+</code></pre></div></div>
+
+<p>3.配置邮箱：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config --local user.email 'Jerry@163.com'
+</code></pre></div></div>
+
+<h2 id="查看有户名和邮箱">查看有户名和邮箱</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config user.name
+git config user.email
+</code></pre></div></div>
+
+<p>注：在为某个文件夹单独配置的文件下查看，如上配置，显示用户名为 Jerry，邮箱为 Jerry@163.com。否则为全局配置，显示用户名为 Tom，邮箱为 Tom@163.com。</p>
+
+<h1 id="仓库">仓库</h1>
+
+<h2 id="从当前目录初始化">从当前目录初始化</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd [目录]
+
+git init 
+</code></pre></div></div>
+
+<h2 id="从现有仓库克隆">从现有仓库克隆</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd [目录]
+
+git clone [仓库地址]
+</code></pre></div></div>
+
+<h1 id="基础">基础</h1>
+
+<h2 id="前提">前提</h2>
+
+<p>1.新建一个文件夹名为 test，并进入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir test
+cd test
+</code></pre></div></div>
+
+<p>2.初始化 Git</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git init
+</code></pre></div></div>
+
+<p>3.创建文件 1.txt</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim 1.txt
+</code></pre></div></div>
+
+<ol>
+  <li>按 <code class="highlighter-rouge">i</code> 开始写入一些英文</li>
+  <li>按 <code class="highlighter-rouge">esc</code> 键</li>
+  <li>输入 <code class="highlighter-rouge">:wq</code> 退出</li>
+</ol>
+
+<h2 id="git-add">git add</h2>
+
+<p>现在我们已经创建了文件，并添加了文本内容。也就是介绍部分所说的修改状态。现在我们要将修改添加到暂存区，就用到了 <code class="highlighter-rouge">git add</code> 命令:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add 1.txt
+</code></pre></div></div>
+
+<p>备注：如果添加并修改了多个文件，不想一个个的添加到暂存区，可以使用全部添加命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add .
+</code></pre></div></div>
+
+<h2 id="git-commit">git commit</h2>
+
+<p>现在文件已经到了暂存区状态，我们如果要安全的保存在本地数据库中即提交，我们就要使用 <code class="highlighter-rouge">git commit</code> 命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit -m '我创建并修改了 1.txt 文件'
+</code></pre></div></div>
+
+<p>注： <code class="highlighter-rouge">-m</code> 后面文字备注了我们操作了什么。</p>
+
+<h2 id="git-diff">git diff</h2>
+
+<p><code class="highlighter-rouge">git diff</code> 命令使用来查看修改的但是还没暂存（<code class="highlighter-rouge">git add</code>）的改动。</p>
+
+<p>比如我们继续修改 1.txt 文件，追加文本 <code class="highlighter-rouge">Hello World</code>。使用 <code class="highlighter-rouge">git diff</code> 命令会看到：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">diff --git a/1.txt b/1.txt
+index aa1151a..20fa783 100644
+</span><span class="gd">--- a/1.txt
+</span><span class="gi">+++ b/1.txt
+</span><span class="gu">@@ -1 +1,3 @@
+</span> init
+<span class="gi">+
++Hello World
+</span></code></pre></div></div>
+
+<p>注：若是要看已经暂存起来的文件和上次提交时的快照之间的差异，可以用命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git diff --cached
+</code></pre></div></div>
+
+<h2 id="git-status">git status</h2>
+
+<p>与上面的 <code class="highlighter-rouge">git diff</code> 不同，<code class="highlighter-rouge">git status</code> 的显示比较简单，仅仅列出了修改过的文件。</p>
+
+<p>注：该命令查看的是 修改的文件 和 已暂存文件的状态。</p>
+
+<h2 id="git-log">git log</h2>
+
+<p>在提交了若干更新后或是克隆了某个项目，想看提交历史，可以使用 <code class="highlighter-rouge">git log</code> 命令。</p>
+
+<h2 id="git-remote">git remote</h2>
+
+<p>因为上面的内容都是在本地操作，我们要链接远程仓库怎么办？ 我们使用 <code class="highlighter-rouge">git remote</code> 命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote add [shortname] [url]
+</code></pre></div></div>
+
+<p>比如：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote add origin git://github.com/git.git
+</code></pre></div></div>
+
+<h2 id="git-pull">git pull</h2>
+
+<p>远端有代码更新时，我们使用 <code class="highlighter-rouge">git pull</code> 命令,拉取远端代码：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git pull origin master
+</code></pre></div></div>
+
+<h2 id="git-push">git push</h2>
+
+<p>向远端更新代码时，使用 <code class="highlighter-rouge">git push</code> 命令，</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin master
+</code></pre></div></div>
+
+<h1 id="分支">分支</h1>
+
+<h2 id="新建分支">新建分支</h2>
+
+<p>1.创建本地分支</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch dev
+</code></pre></div></div>
+
+<p>注：默认分支为 master。<code class="highlighter-rouge">git init</code> 刚开始时时没有分支的，只有提交过一次后才会出现 master 分支。切换分支使用 <code class="highlighter-rouge">git checkout [分支名称]</code>。如切换到 dev 分支：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout dev
+</code></pre></div></div>
+
+<p>2.将分支 push 到远程使用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin [分支名称]
+</code></pre></div></div>
+
+<p>如将本地 dev 分支 push 到远程，使用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin dev
+</code></pre></div></div>
+
+<p>注：也可以运行:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin dev:dev
+</code></pre></div></div>
+
+<p>来实现相同的效果，它的意思是“提取我的 dev 并更新到远程仓库的 dev”。</p>
+
+<p>通过此语法，你可以把本地分支推送到某个命名不同的远程分支：若想把远程分支叫做 remoteDev，可以用:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin dev:remoteDev
+</code></pre></div></div>
+
+<h2 id="删除分支">删除分支</h2>
+
+<p>1.删除本地分支</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch -d [分支名称]
+</code></pre></div></div>
+
+<p>比如删除本地分支 dev</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout master
+
+git branch -d dev
+</code></pre></div></div>
+
+<p>2.删除远程分支</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin :[远程分支名称]
+</code></pre></div></div>
+
+<p>比如删除远程分支 dev:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin :dev
+</code></pre></div></div>
+
+<h2 id="跟踪分支">跟踪分支</h2>
+
+<p>从远程分支检出的本地分支，成为跟踪分支。跟踪分支是一种和远程分支有直接联系的本地分支。在跟踪分支里输入 <code class="highlighter-rouge">git push</code>，Git 会自行推断应该向哪个拂去其的哪个分支推送数据。反过来，在这些分支里运行 <code class="highlighter-rouge">git pull</code> 会获取所有远程索引，并把它们的数据都合并到本地分支中来。</p>
+
+<p>在克隆仓库时，Git 通常会自动创建一个 master 分支来跟踪 origin/master。这正是 <code class="highlighter-rouge">git push</code> 和 <code class="highlighter-rouge">git pull</code> 一开始就能正常工作的原因。</p>
+
+<p>有时远程有新分支，我们需要检出，如何操作呢？两步。</p>
+
+<p>1.通过 fetch 操作抓取新的远程分支</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch
+</code></pre></div></div>
+
+<p>注：可以通过 <code class="highlighter-rouge">git branch -r</code> 来查看本地抓取的远程分支。</p>
+
+<p>2.检出远程新分支</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout -b [分支名] [远程名]/[分支名]
+</code></pre></div></div>
+
+<p>比如要检出远程分支 newfeature:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch
+git checkout -b newfeature origin/newfeature
+</code></pre></div></div>
+
+<h1 id="储藏stash">储藏（stash)</h1>
+
+<p>当正在进行项目中某一部分的工作，里面的东西处于一个比较杂乱的状态，而你想转到其他分支上记性一些工作。问题是，你不想提交进行了一般的工作，否则以后你无法回到这个工作点。解决这个问题的办法就是 <code class="highlighter-rouge">git stash</code> 命令。</p>
+
+<h2 id="使用储藏">使用储藏</h2>
+
+<p>接上文，我们更改 1.txt 文件完成后，执行操作：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash
+</code></pre></div></div>
+
+<p>如果我们想备注一下储藏，更方便的知道储藏的是什么东西，可以使用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash save "备注信息"
+</code></pre></div></div>
+
+<p>上面的命令将会把我们的修改储藏起来。</p>
+
+<h2 id="查看储藏列表">查看储藏列表</h2>
+
+<p>我们可以通过，<code class="highlighter-rouge">git stash list</code> 来查看所有储藏。</p>
+
+<h2 id="使用某次储藏">使用某次储藏</h2>
+
+<p>使用最后一次储藏，可以使用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash apply
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash pop
+</code></pre></div></div>
+
+<p>注：apply 会使用这次储藏，但不会删除这次储藏。pop 会使用这次储藏，并删除这次储藏。</p>
+
+<p>使用某次提交，可以使用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash apply stash@{index}
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash pop stash@{index}
+</code></pre></div></div>
+
+<p>注 <code class="highlighter-rouge">stash@{index}</code> 中的 index，是 stash 的索引。使用 <code class="highlighter-rouge">git stash list</code> 可以看到每次的储藏索引。</p>
+
+<h2 id="删除某次储藏">删除某次储藏</h2>
+
+<p>删除储藏使用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash drop stash@{0}
+</code></pre></div></div>
+
+<h2 id="清除所有储藏">清除所有储藏</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash clear
+</code></pre></div></div>
+
+<h1 id="合并merge">合并（merge)</h1>
+
+<p>将 newfeature 分支 合并到 master 分支：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout master
+git merge newfeature
+</code></pre></div></div>
+<p>或者一句话实现:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git merge newfeature master
+</code></pre></div></div>
+
+<p>有时候合并操作并不会如此书里，如果两个分支同时修改了同一个文件的同一个部分，就出现了合并冲突。</p>
+
+<p>任何包含未解决冲突的文件都会以未合并状态列出。Git 会在有冲突的文件里加入标准的冲突解决标记，可以通过它们来手工定位并解决这些冲突。可以看到这样一些符号：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:1.txt
+...
+=======
+...
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; newfeature:1.txt
+
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">=======</code> 隔开的上半部分，是 HEAD（即 master 分支）中的内容，下半部分是在 newfeature 分支中的内容。解决冲突的办法无非是二选一或者亲自合并到一起。</p>
+
+<p>在解决了所有文件的冲突后，运行 <code class="highlighter-rouge">git add</code> 将它们标记为已解决。在运行一次 <code class="highlighter-rouge">git status</code> 来确认所有冲突都已解决。如果确认了所有冲突都已解决，就可以使用 <code class="highlighter-rouge">git commit</code> 来完成这次合并提交。</p>
+
+<h1 id="衍合rebase">衍合（rebase）</h1>
+
+<p>熟练掌握 <code class="highlighter-rouge">git rebase</code> 操作，包括 <code class="highlighter-rouge">git rebase -i</code> 和 <code class="highlighter-rouge">git rebase --onto</code>，掌握一种 git 工作流</p>
+
+<p>待整理</p>
+
+<p>…</p>
+
+<h1 id="撤销">撤销</h1>
+
+<p>三种状态：已修改、已暂存、已提交</p>
+
+<h2 id="修改最后一次提交">修改最后一次提交</h2>
+
+<p>有时候我们提交完了才发现漏掉了几个文件没有加，或者提交信息写错了。想要撤销刚才的操作提交，可以使用 <code class="highlighter-rouge">--amend</code> 选项重新提交：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit --amend
+</code></pre></div></div>
+
+<p>此命令将使用当前的暂存区域快照提交，如果刚才提交完没有做任何改动（<code class="highlighter-rouge">git add</code>），直接运行此命令的话，相当于有机会重新编辑提交说明，而所提交的文件快照和之前的一样。</p>
+
+<h2 id="对于已修改的文件撤销">对于已修改的文件撤销</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout --[file name]
+</code></pre></div></div>
+
+<h2 id="对于已暂存的文件撤销">对于已暂存的文件撤销</h2>
+
+<p>将已暂存的撤销到修改状态，使用命令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git reset HEAD [file name]
+</code></pre></div></div>
+
+<h2 id="对于已提交的文件撤销">对于已提交的文件撤销</h2>
+
+<p>1.撤销某次提交之后的所有提交并放到修改状态区</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git reset [commit id]
+</code></pre></div></div>
+
+<p>2.撤销某次提交之后的所有提交</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git reset --hard [commit id]
+</code></pre></div></div>
+
+<p>3.撤销某次提交（并不删除提交历史）</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git revert [commit id]
+</code></pre></div></div>
+
+<h1 id="标签">标签</h1>
+
+<p>Git 使用的标签有两种类型：</p>
+
+<ul>
+  <li>轻量级的标签</li>
+  <li>含附注的标签</li>
+</ul>
+
+<p>轻量级标签就像是个不会变化的分支，实际上它就是个指向特定提交对象的引用。而含附注标签，实际上是存储在仓库中的一个独立对象，它有自身的校验和信息，包含着标签的名字，点子邮件地址和日期，以及标签说明，标签本身也允许使用 GNU Privacy Guard（GPG）来签署或验证。一般我们都建议使用含附注的标签，已保留相关信息；当然，如果只是临时性夹住标签，或者不需要旁注额外信息，用轻量级标签也没问题。</p>
+
+<h2 id="新建标签">新建标签</h2>
+
+<p>1.新建含附注的标签</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git tag -a [tagname] -m '[tag 备注]'
+</code></pre></div></div>
+
+<p>2.新建轻量级标签</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git tag [tagname]
+</code></pre></div></div>
+
+<p>3.将标签提交到远程服务器</p>
+
+<p>默认情况下，<code class="highlighter-rouge">git push</code> 并不会把标签传送到远端服务器上，只有通过显式命令才能分享标签到远端仓库。其命令格式如同推送分支，运行:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin [tagname]
+</code></pre></div></div>
+
+<p>如果一次要提交所有本地标签，可使用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push --tags
+</code></pre></div></div>
+
+<h2 id="查询已有标签">查询已有标签</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git tag
+</code></pre></div></div>
+
+<h2 id="删除标签">删除标签</h2>
+
+<p>删除本地标签：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git tag -d [tagname]
+</code></pre></div></div>
+
+<p>删除远程标签：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin :refs/tags/[tagname]
+</code></pre></div></div>
+
+<h2 id="检出标签">检出标签</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout tags/[tagname]
+</code></pre></div></div>
+
+<h1 id="小技巧">小技巧</h1>
+
+<h2 id="跳过使用暂存区域">跳过使用暂存区域</h2>
+
+<p>尽管使用暂存区域的方式可以精心准备要提交的细节，但有时候这么做有些麻烦。Git 提供了一个跳过使用暂存区域的方式，只要在提交的时候，给 <code class="highlighter-rouge">git commit</code> 加上 <code class="highlighter-rouge">-a</code> 选项，Git 就会自动把所有已经跟踪过的文件暂存起来以并提交，从而跳过 <code class="highlighter-rouge">git add</code> 步骤：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit -a -m '修改了文件'
+</code></pre></div></div>
+
+<h2 id="新建分支并切换到新分支">新建分支并切换到新分支</h2>
+<p>比如，我们要创建一个新分支 newfeature 并立即切换到 newfeature 分支，我们可以：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout -b newfeature
+
+</code></pre></div></div>
+
+<h2 id="跟踪分支-1">跟踪分支</h2>
+
+<p>如果想要远程分支名和本地分支名一样的名字，可以用 <code class="highlighter-rouge">--track</code> 来简化</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch
+git checkout --track origin/newfeature
+</code></pre></div></div>
+
+<p>如果要为本地分支设定不同于远程分支的名字，只需：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch
+git checkout -b new origin/newfeature
+</code></pre></div></div>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    
+                        <figure class="author-image">
+                            <a class="img" href="/author/yiming" style="background-image: url(/assets/images/yiming.jpeg)"><span class="hidden">yiming's Picture</span></a>
+                        </figure>
+                    
+
+                    <section class="author">
+                        <h4><a href="/author/yiming">Yiming</a></h4>
+
+                        
+                            <p> 程序猿，90后，生于齐鲁，奋斗在京</p>
+                        
+                        <div class="author-meta">
+                            <span class="author-location icon-location"> Beijing, China</span>
+                            <span class="author-link icon-link"><a href="http://iYiming.me"> iYiming.me</a></span>
+                        </div>
+                    </section>
+
+                    <!-- /author  -->
+
+                    <section class="share">
+                        <h4>Share this post</h4>
+                        <a class="icon-twitter" href="http://twitter.com/share?text=Git 学习之路&amp;url=http://localhost:4000git"
+                            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                            <span class="hidden">Twitter</span>
+                        </a>
+                        <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000git"
+                            onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                            <span class="hidden">Facebook</span>
+                        </a>
+                        <a class="icon-google-plus" href="https://plus.google.com/share?url=http://localhost:4000git"
+                           onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                            <span class="hidden">Google+</span>
+                        </a>
+                    </section>
+                
+            
+
+            <!-- Add Disqus Comments -->
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/assets/images/cover11.jpeg)" href="/ios-sqlite_-migration">
+            <section class="post">
+                <h2>iOS SQLite 数据库迁移</h2>
+                <p>最近不得不考虑关于数据库迁移的问题，原先用了种很不好的处理方式（每次版本升级就删除本地数据库，太傻），于是开始考虑下如何迁移数据库。</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <!-- The tiny footer at the very bottom -->
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="/">Yiming's Blog</a> &copy; 2018</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/jekyller/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- highlight.js -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!-- jQuery needs to come before `` so that jQuery can be used in code injection -->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- Ghost outputs important scripts and data with this tag -->
+    <!--  -->
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-69281367-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>
+    <!-- Fitvids makes video embeds responsive and awesome -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <!-- The main JavaScript file for Casper -->
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+</body>
+</html>
